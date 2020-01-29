@@ -51,6 +51,26 @@ var renderRandomValues = function (countArray) {
   return Math.floor(Math.random() * countArray.length);
 };
 
+function getAdjustArray(arg) {
+  var adjust = [];
+
+  for (var i = 0; i < arg.length; i++) {
+    if (!adjust.includes(arg[i])) {
+      adjust.push(arg[i]);
+    }
+  }
+  return adjust;
+}
+
+function getLengthArray(arg) {
+  var result = [];
+  var len = 1 - 0.5 + Math.random() * arg.length;
+  for (var i = 0; i < len; i++) {
+    result.push(arg[i]);
+  }
+  return getAdjustArray(result);
+}
+
 var arrayOfObjects = [];
 
 var getArrayOfObjects = function (count) {
@@ -68,9 +88,9 @@ var getArrayOfObjects = function (count) {
         guests: guestsNumbers[renderRandomValues(guestsNumbers)],
         checkin: checkins[renderRandomValues(checkins)],
         checkout: checkouts[renderRandomValues(checkouts)],
-        features: features[renderRandomValues(features)],
+        feature: getLengthArray(features),
         description: descriptions[renderRandomValues(descriptions)],
-        photos: photos[renderRandomValues(photos)],
+        photos: getLengthArray(photos),
       },
       location: {
         x: xValues[renderRandomValues(xValues)],
@@ -96,8 +116,9 @@ var renderPin = function (arg) {
   for (var i = 0; i < arrayOfObjects.length; i++) {
     var pinElement = pinTemplate.cloneNode(true);
 
-    pinElement.style.left = arg[i].location.x + 'px';
-    pinElement.style.top = arg[i].location.y + 'px';
+    pinElement.style.left = (arg[i].location.x - 25) + 'px';
+    pinElement.style.top = (arg[i].location.y - 70) + 'px';
+
     pinElement.querySelector('img').src = arg[i].author.avatar;
     pinElement.querySelector('img').alt = arg[i].offer.title;
 
