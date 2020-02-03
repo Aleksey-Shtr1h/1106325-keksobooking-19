@@ -113,8 +113,6 @@ var getArrayOfObjects = function (count) {
 
 getArrayOfObjects(objCount);
 
-console.log(arrayOfObjects);
-
 var map = document.querySelector('.map');
 map.classList.remove('map--faded');
 
