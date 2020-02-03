@@ -25,30 +25,33 @@ var iconHeight = 70;
 var iconWidth = 50;
 var locationMinY = 130;
 var locationMaxY = 630;
+var valueAddresMin = 200;
+var valueAddresMax = 650;
+var roomMin = 1;
+var roomMax = 7;
+var guestMin = 1;
+var guestMax = 12;
+var priceMin = 100000;
+var priceMax = 9000000;
 
 var getRandomValues = function (count) {
   for (var i = 1; i <= count; i++) {
-    var valueAddres = String(Math.round(200 - 0.5 + Math.random() * (650 - 200 + 1)));
-    addressNumbers.push(valueAddres);
 
-    var price = Math.floor(Math.random() * 5000) * 1200;
-    prices.push(price);
+    addressNumbers.push(String(selectRandomValuse(valueAddresMin, valueAddresMax)));
+
+    prices.push(selectRandomValuse(priceMin, priceMax));
 
     var avatar = 'img/avatars/user0' + i + '.png';
     avatars.push(avatar);
 
-    var room = Math.round(1 - 0.5 + Math.random() * 7);
-    roomsNumbers.push(room);
-
-    var guest = Math.round(1 - 0.5 + Math.random() * 12);
-    guestsNumbers.push(guest);
-
-    xValues.push(getRandomPosition(iconWidth, mapBlock));
-    yValues.push(getRandomPosition(locationMinY, locationMaxY));
+    roomsNumbers.push(selectRandomValuse(roomMin, roomMax));
+    guestsNumbers.push(selectRandomValuse(guestMin, guestMax));
+    xValues.push(selectRandomValuse(iconWidth, mapBlock));
+    yValues.push(selectRandomValuse(locationMinY, locationMaxY));
   }
 };
 
-var getRandomPosition = function (min, max) {
+var selectRandomValuse = function (min, max) {
   return Math.round(min - 0.5 + Math.random() * (max - min + 1));
 };
 
@@ -109,6 +112,8 @@ var getArrayOfObjects = function (count) {
 };
 
 getArrayOfObjects(objCount);
+
+console.log(arrayOfObjects);
 
 var map = document.querySelector('.map');
 map.classList.remove('map--faded');
