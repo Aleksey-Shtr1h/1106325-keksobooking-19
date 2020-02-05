@@ -6,6 +6,8 @@ var mainIconButton = map.querySelector('.map__pin--main');
 var mainForm = document.querySelector('.ad-form');
 var formFieldsets = mainForm.querySelectorAll('.ad-form fieldset');
 var userInputAddress = mainForm.querySelector('#address');
+var selectRoomNumber = mainForm.querySelector('#room_number');
+var selectCapacity = mainForm.querySelector('#capacity');
 var iconMainWidth = mainIconButton.offsetWidth;
 var iconMainHieght = mainIconButton.offsetHeight;
 var iconMainHeightAfter = 22;
@@ -25,7 +27,7 @@ function activateFormElement(arrayAtr) {
 var indicateCoordinates = function () {
   var leftCoordinate = parseInt(mainIconButton.style.left, 10);
   var topCoordinate = parseInt(mainIconButton.style.top, 10);
-  var addressElementary = Math.round(leftCoordinate + iconMainWidth / 2) + ',' + Math.round(topCoordinate + iconMainHieght + iconMainHeightAfter);
+  var addressElementary = Math.round(leftCoordinate + iconMainWidth / 2) + ', ' + Math.round(topCoordinate + iconMainHieght + iconMainHeightAfter);
   return addressElementary;
 };
 
@@ -42,6 +44,35 @@ var onTurnOnLeftButton = function (evt) {
   }
 };
 
+var onSynchronizationRoomToGuest = function () {
+  for (var i = 0; i < selectRoomNumber.length; i++) {
+    if (selectRoomNumber.item(i).selected) {
+      for (var j = 0; j < selectCapacity.length; j++) {
+        if (selectCapacity.options[j].value === selectRoomNumber.options[i].value) {
+          selectCapacity.item(j).selected = true;
+        } else if (selectRoomNumber.options[i].value === '100') {
+          selectCapacity.item(j).selected = true;
+        }
+      }
+    }
+  }
+};
+
+var validationRoomToGuest = function () {
+  var roomValue = Number(selectRoomNumber.value);
+  var questValue = Number(selectCapacity.value);
+
+  if (roomValue !== 100 && questValue === 0) {
+    selectCapacity.setCustomValidity('Выберете колличество гостей');
+  } else if (roomValue === 100 && questValue !== 0) {
+    selectCapacity.setCustomValidity('Не предназначенно для гостей');
+  } else if (roomValue < questValue) {
+    selectCapacity.setCustomValidity('Гостей надо поменьше');
+  } else {
+    selectCapacity.setCustomValidity('');
+  }
+};
+
 mainIconButton.addEventListener('mousedown', function () {
   document.addEventListener('mousedown', onTurnOnLeftButton);
 });
@@ -51,6 +82,9 @@ mainIconButton.addEventListener('keydown', function (evt) {
     enabledForm();
   }
 });
+selectRoomNumber.addEventListener('change', onSynchronizationRoomToGuest);
+selectCapacity.addEventListener('input', validationRoomToGuest);
+
 
 activateOffFormElement(formFieldsets);
 userInputAddress.value = indicateCoordinates();
