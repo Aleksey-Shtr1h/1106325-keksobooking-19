@@ -39,6 +39,7 @@
     activateFormElement(formFieldsets);
     userInputAddress.value = indicateCoordinates();
     window.pin.renderPin(window.data.arrayOfObjects);
+    // window.cards.renderCard;
   };
 
   var onTurnOnLeftButton = function (evt) {

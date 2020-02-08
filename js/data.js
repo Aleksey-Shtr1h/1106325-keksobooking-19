@@ -2,12 +2,19 @@
 
 (function () {
   var objCount = 8;
-  var titles = ['apartment', 'studio', 'room', 'garage', 'house'];
+  var titles = ['Специальное предложение только вас!',
+    'Звоните сейчас, завтра цены будут дороже!',
+    'Вам повезло с ценой! Транспортный проезд без проблем',
+    'Место, куда Вы будете с гордостью звать гостей',
+    'Квартира в одном из лучших районов города'];
   var types = ['palace', 'flat', 'house', 'bungalo'];
   var checkins = ['12:00', '13:00', '14:00'];
   var checkouts = ['12:00', '13:00', '14:00'];
   var features = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-  var descriptions = ['best property', 'comfortable', 'near the subway', 'to city center'];
+  var descriptions = ['Best Property',
+    'Comfortable',
+    'Near The Subway',
+    'To City Center'];
   var photos = [
     'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
     'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
@@ -29,9 +36,9 @@
   var roomMin = 1;
   var roomMax = 7;
   var guestMin = 1;
-  var guestMax = 12;
-  var priceMin = 100000;
-  var priceMax = 9000000;
+  var guestMax = 7;
+  var priceMin = 3000;
+  var priceMax = 20000;
 
   var mapBlock = document.querySelector('.map').offsetWidth;
 
