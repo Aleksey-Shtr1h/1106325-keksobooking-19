@@ -1,5 +1,7 @@
 'use strict';
+
 (function () {
+
   var ENTER_KEY = 'Enter';
   var map = document.querySelector('.map');
   var mainIconButton = map.querySelector('.map__pin--main');
@@ -37,6 +39,7 @@
     activateFormElement(formFieldsets);
     userInputAddress.value = indicateCoordinates();
     window.pin.renderPin(window.data.arrayOfObjects);
+    // window.cards.renderCard;
   };
 
   var onTurnOnLeftButton = function (evt) {

@@ -1,4 +1,5 @@
 'use strict';
+
 (function () {
   var iconWidth = 50;
   var iconHeight = 70;
