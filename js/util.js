@@ -1,5 +1,4 @@
 'use strict';
-
 (function () {
 
   var selectRandomValues = function (min, max) {

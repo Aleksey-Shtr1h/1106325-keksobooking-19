@@ -1,5 +1,4 @@
 'use strict';
-
 (function () {
   var objCount = 8;
   var titles = ['apartment', 'studio', 'room', 'garage', 'house'];
