@@ -26,8 +26,16 @@
     mapPins.appendChild(fragment);
   };
 
+  function cleanPinsBtn() {
+    var btnPins = document.querySelectorAll('.map__pin:not(.map__pin--main');
+    btnPins.forEach(function (btnPin) {
+      btnPin.remove();
+    });
+  }
+
   window.pin = {
     renderPin: renderPin,
+    cleanPinsBtn: cleanPinsBtn,
   };
 
 })();

@@ -38,13 +38,15 @@
     mainForm.classList.remove('ad-form--disabled');
     activateFormElement(formFieldsets);
     userInputAddress.value = indicateCoordinates();
+    window.pin.cleanPinsBtn();
     window.pin.renderPin(window.data.arrayOfObjects);
-    // window.cards.renderCard;
+    window.cards.getCardsPins();
   };
 
   var onTurnOnLeftButton = function (evt) {
     if (evt.button === 0) {
       enabledForm();
+      document.removeEventListener('mousedown', onTurnOnLeftButton);
     }
   };
 
@@ -66,6 +68,7 @@
     document.addEventListener('mousedown', onTurnOnLeftButton);
   });
 
+
   mainIconButton.addEventListener('keydown', function (evt) {
     if (evt.key === ENTER_KEY) {
       enabledForm();
@@ -76,6 +79,4 @@
 
   activateOffFormElement(formFieldsets);
   userInputAddress.value = indicateCoordinates();
-
 })();
-
