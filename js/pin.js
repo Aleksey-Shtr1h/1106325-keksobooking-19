@@ -3,10 +3,19 @@
 (function () {
   var iconWidth = 50;
   var iconHeight = 70;
-
+  var map = document.querySelector('.map');
+  var mainIconButton = map.querySelector('.map__pin--main');
   var mapPins = document.querySelector('.map__pins');
-
   var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
+  var mainForm = document.querySelector('.ad-form');
+  var userInputAddress = mainForm.querySelector('#address');
+  var mapBlock = document.querySelector('.map').offsetWidth;
+  var locationMinY = 130;
+  var locationMaxY = 630;
+  var minTop = locationMinY - iconHeight;
+  var maxTop = locationMaxY - iconHeight;
+  var minLeft = (mapBlock - mapBlock) - iconWidth / 2;
+  var maxLeft = mapBlock - iconWidth / 2;
 
 
   var renderPin = function (arg) {
@@ -26,16 +35,76 @@
     mapPins.appendChild(fragment);
   };
 
-  function cleanPinsBtn() {
-    var btnPins = document.querySelectorAll('.map__pin:not(.map__pin--main');
-    btnPins.forEach(function (btnPin) {
-      btnPin.remove();
-    });
-  }
+  mainIconButton.addEventListener('mousedown', function (evt) {
+    evt.preventDefault();
+
+    var startCoords = {
+      x: evt.clientX,
+      y: evt.clientY
+    };
+
+    var onMouseMove = function (moveEvt) {
+      moveEvt.preventDefault();
+
+      var shift = {
+        x: startCoords.x - moveEvt.clientX,
+        y: startCoords.y - moveEvt.clientY
+      };
+
+      startCoords = {
+        x: moveEvt.clientX,
+        y: moveEvt.clientY
+      };
+
+      function getCoordStyle(x, y) {
+        return y ? (mainIconButton.offsetTop - shift.y) : (mainIconButton.offsetLeft - shift.x);
+      }
+
+      function getRestrictionForPin(position, min, max, x, y) {
+        if (parseInt(position, 10) > max) {
+          position = max + 'px';
+
+        } else if (parseInt(position, 10) < min) {
+          position = min + 'px';
+
+        } else {
+          position = getCoordStyle(x, y) + 'px';
+        }
+        return position;
+      }
+
+      mainIconButton.style.top = getRestrictionForPin(mainIconButton.style.top, minTop, maxTop, false, true);
+      mainIconButton.style.left = getRestrictionForPin(mainIconButton.style.left, minLeft, maxLeft, true, false);
+
+      var topAddress = mainIconButton.style.top;
+      var leftAddress = mainIconButton.style.left;
+
+      userInputAddress.value = window.form.indicateCoordinates(leftAddress, topAddress);
+    };
+
+    var onMouseUp = function (upEvt) {
+      upEvt.preventDefault();
+      // window.form.indicateCoordinates();
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    };
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  });
+
+
+  // Альтернативная очистка пинов
+
+  // function cleanPinsBtn() {
+  //   var btnPins = document.querySelectorAll('.map__pin:not(.map__pin--main');
+  //   btnPins.forEach(function (btnPin) {
+  //     btnPin.remove();
+  //   });
+  // }
 
   window.pin = {
     renderPin: renderPin,
-    cleanPinsBtn: cleanPinsBtn,
   };
 
 })();
