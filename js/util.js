@@ -23,7 +23,7 @@
 
   function getLengthArray(arg) {
     var result = [];
-    var len = 1 - 0.5 + Math.random() * arg.length;
+    var len = Math.random() * arg.length;
     for (var i = 0; i < len; i++) {
       result.push(arg[i]);
     }

@@ -92,6 +92,7 @@
     return arrayOfObjects;
   };
 
+
   getArrayOfObjects(objCount);
 
   window.data = {
