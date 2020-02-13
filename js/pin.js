@@ -12,10 +12,13 @@
   var mapBlock = document.querySelector('.map').offsetWidth;
   var locationMinY = 130;
   var locationMaxY = 630;
-  var minTop = locationMinY - iconHeight;
-  var maxTop = locationMaxY - iconHeight;
-  var minLeft = (mapBlock - mapBlock) - iconWidth / 2;
-  var maxLeft = mapBlock - iconWidth / 2;
+  var iconMainWidth = mainIconButton.offsetWidth;
+  var iconMainHieght = mainIconButton.offsetHeight;
+  var iconMainHeightAfter = 22;
+  var minTop = locationMinY - iconMainHieght - iconMainHeightAfter;
+  var maxTop = locationMaxY - iconMainHieght - iconMainHeightAfter;
+  var minLeft = (mapBlock - mapBlock) - iconMainWidth / 2;
+  var maxLeft = mapBlock - iconMainWidth / 2;
 
 
   var renderPin = function (arg) {
