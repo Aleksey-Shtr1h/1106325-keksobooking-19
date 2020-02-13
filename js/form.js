@@ -30,7 +30,6 @@
   }
 
   var indicateCoordinates = function (left, top) {
-    // var a = window.pin.qwer();
     var leftCoordinate = parseInt(left, 10);
     var topCoordinate = parseInt(top, 10);
     // var leftCoordinate = parseInt(mainIconButton.style.left, 10);
