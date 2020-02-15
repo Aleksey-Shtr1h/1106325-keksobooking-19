@@ -16,10 +16,9 @@
   var iconMainHieght = mainIconButton.offsetHeight;
   var iconMainHeightAfter = 22;
   var minTop = locationMinY - iconMainHieght - iconMainHeightAfter;
-  var maxTop = locationMaxY - iconMainHieght - iconMainHeightAfter;
+  var maxTop = locationMaxY;
   var minLeft = (mapBlock - mapBlock) - iconMainWidth / 2;
   var maxLeft = mapBlock - iconMainWidth / 2;
-
 
   var renderPin = function (arg) {
     var fragment = document.createDocumentFragment();
