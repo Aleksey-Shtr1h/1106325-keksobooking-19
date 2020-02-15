@@ -2,25 +2,6 @@
 
 (function () {
   var objCount = 8;
-  var titles = ['Специальное предложение только вас!',
-    'Звоните сейчас, завтра цены будут дороже!',
-    'Вам повезло с ценой! Транспортный проезд без проблем',
-    'Место, куда Вы будете с гордостью звать гостей',
-    'Квартира в одном из лучших районов города'];
-  var types = ['palace', 'flat', 'house', 'bungalo'];
-  var checkins = ['12:00', '13:00', '14:00'];
-  var checkouts = ['12:00', '13:00', '14:00'];
-  var features = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-  var descriptions = ['Best Property',
-    'Comfortable',
-    'Near The Subway',
-    'To City Center'];
-  var photos = [
-    'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
-    'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
-    'http://o0.github.io/assets/images/tokyo/hotel3.jpg',
-  ];
-
   var avatars = [];
   var addressNumbers = [];
   var prices = [];
@@ -64,36 +45,26 @@
 
   getRandomValues(objCount);
 
-  var getArrayOfObjects = function (count) {
-    for (var i = 0; i < count; i++) {
-      arrayOfObjects.push({
-        author: {
-          avatar: avatars[i],
-        },
-        offer: {
-          title: titles[window.util.renderRandomValues(titles)],
-          address: addressNumbers[window.util.renderRandomValues(addressNumbers)],
-          price: prices[window.util.renderRandomValues(prices)],
-          type: types[window.util.renderRandomValues(types)],
-          rooms: roomsNumbers[window.util.renderRandomValues(roomsNumbers)],
-          guests: guestsNumbers[window.util.renderRandomValues(guestsNumbers)],
-          checkin: checkins[window.util.renderRandomValues(checkins)],
-          checkout: checkouts[window.util.renderRandomValues(checkouts)],
-          feature: window.util.getLengthArray(features),
-          description: descriptions[window.util.renderRandomValues(descriptions)],
-          photos: window.util.getLengthArray(photos),
-        },
-        location: {
-          x: xValues[window.util.renderRandomValues(xValues)],
-          y: yValues[window.util.renderRandomValues(yValues)],
-        }
-      });
+  var successHandler = function (pins) {
+    for (var i = 0; i < 8; i++) {
+      arrayOfObjects.push(pins[i]);
     }
     return arrayOfObjects;
   };
 
+  var errorHandler = function (errorMessage) {
+    var node = document.createElement('div');
+    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+    node.style.position = 'absolute';
+    node.style.left = 0;
+    node.style.right = 0;
+    node.style.fontSize = '30px';
 
-  getArrayOfObjects(objCount);
+    node.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', node);
+  };
+
+  window.backend.load(successHandler, errorHandler);
 
   window.data = {
     arrayOfObjects: arrayOfObjects,

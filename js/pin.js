@@ -95,16 +95,6 @@
     document.addEventListener('mouseup', onMouseUp);
   });
 
-
-  // Альтернативная очистка пинов
-
-  // function cleanPinsBtn() {
-  //   var btnPins = document.querySelectorAll('.map__pin:not(.map__pin--main');
-  //   btnPins.forEach(function (btnPin) {
-  //     btnPin.remove();
-  //   });
-  // }
-
   window.pin = {
     renderPin: renderPin,
   };

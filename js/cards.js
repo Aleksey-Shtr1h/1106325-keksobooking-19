@@ -104,8 +104,8 @@
     cardElement.querySelector('.popup__text--capacity').textContent = getRoomGuestCard(arg[index].offer.rooms, arg[index].offer.guests);
     cardElement.querySelector('.popup__text--time').textContent = 'заезд после ' + arg[index].offer.checkin + ' , выезд до ' + arg[index].offer.checkout;
 
-    if (arg[index].offer.feature.length > 0) {
-      getFeatureList(featureItem, featureList, arg[index].offer.feature);
+    if (arg[index].offer.features.length > 0) {
+      getFeatureList(featureItem, featureList, arg[index].offer.features);
     } else {
       cardElement.querySelector('.popup__features').style.display = 'none';
     }

@@ -32,8 +32,6 @@
   var indicateCoordinates = function (left, top) {
     var leftCoordinate = parseInt(left, 10);
     var topCoordinate = parseInt(top, 10);
-    // var leftCoordinate = parseInt(mainIconButton.style.left, 10);
-    // var topCoordinate = parseInt(mainIconButton.style.top, 10);
     var addressElementary = Math.round(leftCoordinate + iconMainWidth / 2) + ', ' + Math.round(topCoordinate + iconMainHieght + iconMainHeightAfter);
     return addressElementary;
   };
@@ -42,7 +40,6 @@
     map.classList.remove('map--faded');
     mainForm.classList.remove('ad-form--disabled');
     activateFormElement(formFieldsets);
-    // window.pin.cleanPinsBtn();  // Альтернативная очистка пинов
     window.pin.renderPin(window.data.arrayOfObjects);
     window.cards.getCardsPins();
     mainIconButton.removeEventListener('mousedown', onTurnOnLeftButton);
