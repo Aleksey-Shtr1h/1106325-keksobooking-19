@@ -6,6 +6,8 @@
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
   var map = document.querySelector('.map');
 
+  // Заполнение карточек
+
   var renderCard = function (arg, index) {
     var fragmentCard = document.createDocumentFragment();
     var cardElement = cardTemplate.cloneNode(true);
@@ -48,7 +50,7 @@
       return valueRoom + roomValue + ' для ' + valueGuest + guestValue;
     };
 
-    var myFun = function (array, list, elem) {
+    var getFeatureList = function (array, list, elem) {
       for (var i = 0; i < array.length; i++) {
         array[i].style.display = 'none';
       }
@@ -103,7 +105,7 @@
     cardElement.querySelector('.popup__text--time').textContent = 'заезд после ' + arg[index].offer.checkin + ' , выезд до ' + arg[index].offer.checkout;
 
     if (arg[index].offer.feature.length > 0) {
-      myFun(featureItem, featureList, arg[index].offer.feature);
+      getFeatureList(featureItem, featureList, arg[index].offer.feature);
     } else {
       cardElement.querySelector('.popup__features').style.display = 'none';
     }
@@ -145,13 +147,13 @@
       });
     }
 
-    function showIndexCard(td) {
+    function showIndexCard(target) {
       var activeCard = map.querySelector('.map__card');
       if (activeCard) {
         activeCard.remove();
       }
       btnPins.forEach(function (item, index) {
-        if (item === td) {
+        if (item === target) {
           window.cards.renderCard(window.data.arrayOfObjects, index);
           var btnPopupClose = document.querySelector('.popup__close');
           var articlePopup = map.querySelector('.map__card.popup');
