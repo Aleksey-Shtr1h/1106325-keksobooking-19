@@ -40,8 +40,8 @@
     map.classList.remove('map--faded');
     mainForm.classList.remove('ad-form--disabled');
     activateFormElement(formFieldsets);
-    window.pin.renderPin(window.data.arrayOfObjects);
-    window.cards.getCardsPins();
+    window.backend.load(window.xmlHttpRequest.successHandler, window.xmlHttpRequest.errorHandler);
+    window.backend.xmlHttpSetup();
     mainIconButton.removeEventListener('mousedown', onTurnOnLeftButton);
   };
 

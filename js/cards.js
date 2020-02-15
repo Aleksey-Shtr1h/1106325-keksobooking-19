@@ -154,7 +154,7 @@
       }
       btnPins.forEach(function (item, index) {
         if (item === target) {
-          window.cards.renderCard(window.data.arrayOfObjects, index);
+          window.cards.renderCard(window.xmlHttpRequest.arrayOfObjects, index);
           var btnPopupClose = document.querySelector('.popup__close');
           var articlePopup = map.querySelector('.map__card.popup');
           closePopupClick(btnPopupClose, articlePopup);

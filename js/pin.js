@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var objCount = 8;
   var iconWidth = 50;
   var iconHeight = 70;
   var map = document.querySelector('.map');
@@ -23,7 +24,7 @@
   var renderPin = function (arg) {
     var fragment = document.createDocumentFragment();
 
-    for (var i = 0; i < window.data.arrayOfObjects.length; i++) {
+    for (var i = 0; i < objCount; i++) {
       var pinElement = pinTemplate.cloneNode(true);
 
       pinElement.style.left = (arg[i].location.x - iconWidth / 2) + 'px';

@@ -16,6 +16,8 @@
     xhr.addEventListener('load', function () {
       if (xhr.status === statusCode.OK) {
         onLoad(xhr.response);
+        window.pin.renderPin(window.xmlHttpRequest.arrayOfObjects);
+        window.cards.getCardsPins();
       } else {
         onError('Статус ответа: ' + xhr.status + '' + xhr.statusText);
       }
@@ -38,6 +40,12 @@
       xhr.open('GET', URLLOAD);
       xhr.send();
     },
+    // save: function (data, onLoad, onError) {
+    //   var xhr = xmlHttpSetup(onLoad, onError);
+    //   xhr.open('POST', URLSAVE);
+    //   xhr.send(data);
+    // },
+    xmlHttpSetup: xmlHttpSetup,
   };
 
 })();
