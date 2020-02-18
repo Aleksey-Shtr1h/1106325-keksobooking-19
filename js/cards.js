@@ -104,8 +104,8 @@
     cardElement.querySelector('.popup__text--capacity').textContent = getRoomGuestCard(arg[index].offer.rooms, arg[index].offer.guests);
     cardElement.querySelector('.popup__text--time').textContent = 'заезд после ' + arg[index].offer.checkin + ' , выезд до ' + arg[index].offer.checkout;
 
-    if (arg[index].offer.feature.length > 0) {
-      getFeatureList(featureItem, featureList, arg[index].offer.feature);
+    if (arg[index].offer.features.length > 0) {
+      getFeatureList(featureItem, featureList, arg[index].offer.features);
     } else {
       cardElement.querySelector('.popup__features').style.display = 'none';
     }
@@ -154,7 +154,7 @@
       }
       btnPins.forEach(function (item, index) {
         if (item === target) {
-          window.cards.renderCard(window.data.arrayOfObjects, index);
+          window.cards.renderCard(window.xmlHttpRequest.arrayOfObjects, index);
           var btnPopupClose = document.querySelector('.popup__close');
           var articlePopup = map.querySelector('.map__card.popup');
           closePopupClick(btnPopupClose, articlePopup);
