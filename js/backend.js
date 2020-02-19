@@ -3,6 +3,7 @@
 (function () {
 
   var URLLOAD = 'https://js.dump.academy/keksobooking/data';
+  var URLSAVE = 'https://js.dump.academy/keksobooking';
   var statusCode = {
     OK: 200,
     TIMEOUT: 10000,
@@ -14,12 +15,19 @@
     xhr.timeout = statusCode.TIMEOUT;
 
     xhr.addEventListener('load', function () {
-      if (xhr.status === statusCode.OK) {
-        onLoad(xhr.response);
-        window.pin.renderPin(window.xmlHttpRequest.arrayOfObjects);
-        window.cards.getCardsPins();
-      } else {
-        onError('Статус ответа: ' + xhr.status + '' + xhr.statusText);
+      switch (xhr.status) {
+        case 200:
+          onLoad(xhr.response);
+          break;
+        case 400:
+          onError('Неверный запрос, правильно заполните данные таблицы');
+          break;
+        case 404:
+          onError('Ничего не найдено');
+          break;
+
+        default:
+          onError('Cтатус ответа: : ' + xhr.status + ' ' + xhr.statusText);
       }
     });
 
@@ -28,7 +36,7 @@
     });
 
     xhr.addEventListener('timeout', function () {
-      onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
+      onError('Плохое соединение с интернетом');
     });
 
     return xhr;
@@ -40,11 +48,11 @@
       xhr.open('GET', URLLOAD);
       xhr.send();
     },
-    // save: function (data, onLoad, onError) {
-    //   var xhr = xmlHttpSetup(onLoad, onError);
-    //   xhr.open('POST', URLSAVE);
-    //   xhr.send(data);
-    // },
+    save: function (data, onLoad, onError) {
+      var xhr = xmlHttpSetup(onLoad, onError);
+      xhr.open('POST', URLSAVE);
+      xhr.send(data);
+    },
     xmlHttpSetup: xmlHttpSetup,
   };
 

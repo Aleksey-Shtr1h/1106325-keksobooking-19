@@ -10,11 +10,19 @@
   var userInputAddress = mainForm.querySelector('#address');
   var selectRoomNumber = mainForm.querySelector('#room_number');
   var selectCapacity = mainForm.querySelector('#capacity');
+  var resetBtn = mainForm.querySelector('.ad-form__reset');
   var iconMainWidth = mainIconButton.offsetWidth;
   var iconMainHieght = mainIconButton.offsetHeight;
   var iconMainHeightAfter = 22;
   var topAddress = mainIconButton.style.top;
   var leftAddress = mainIconButton.style.left;
+
+
+  // для задания.......................................................
+  var priceForm = document.querySelector('#price'); //  ...................
+  priceForm.value = 5000; //  .............................................
+  var titleForm = document.querySelector('#title'); //  ...................
+  titleForm.value = 'Et id sunt veniam velit proident excepteur laboris adipisicing adipisicing dolore minim.'; //  ...........................
 
   function activateOffFormElement(arrayAtr) {
     for (var i = 0; i < arrayAtr.length; i++) {
@@ -39,6 +47,7 @@
   var enabledForm = function () {
     map.classList.remove('map--faded');
     mainForm.classList.remove('ad-form--disabled');
+    onAdjustRoomToGuest();
     activateFormElement(formFieldsets);
     window.backend.load(window.xmlHttpRequest.successHandler, window.xmlHttpRequest.errorHandler);
     window.backend.xmlHttpSetup();
@@ -65,20 +74,30 @@
     }
   };
 
-  mainIconButton.addEventListener('mousedown', onTurnOnLeftButton);
+  function showActivePage() {
+    mainIconButton.addEventListener('mousedown', onTurnOnLeftButton);
+    mainIconButton.addEventListener('keydown', function (evt) {
+      if (evt.key === ENTER_KEY) {
+        enabledForm();
+      }
+    });
+  }
 
-  mainIconButton.addEventListener('keydown', function (evt) {
-    if (evt.key === ENTER_KEY) {
-      enabledForm();
-    }
-  });
+  showActivePage();
 
   selectRoomNumber.addEventListener('change', onAdjustRoomToGuest);
 
+  resetBtn.addEventListener('click', function () {
+    mainForm.reset();
+  });
+
   activateOffFormElement(formFieldsets);
-  // userInputAddress.value = indicateCoordinates();
 
   window.form = {
     indicateCoordinates: indicateCoordinates,
+    onTurnOnLeftButton: onTurnOnLeftButton,
+    showActivePage: showActivePage,
+    activateOffFormElement: activateOffFormElement,
+    onAdjustRoomToGuest: onAdjustRoomToGuest,
   };
 })();
