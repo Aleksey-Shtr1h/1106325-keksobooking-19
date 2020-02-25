@@ -9,8 +9,14 @@
   var formFieldsets = mainForm.querySelectorAll('.ad-form fieldset');
   var userInputAddress = mainForm.querySelector('#address');
   var selectRoomNumber = mainForm.querySelector('#room_number');
+  var selectRoomNumberOption = mainForm.querySelectorAll('#room_number option');
   var selectCapacity = mainForm.querySelector('#capacity');
+  // var selectCapacityOption = mainForm.querySelectorAll('#capacity option');
   var resetBtn = mainForm.querySelector('.ad-form__reset');
+  var wrapperMapFilter = document.querySelector('.map__filters-container');
+  var mapFilter = wrapperMapFilter.querySelector('.map__filters');
+  var mapFilterSelect = wrapperMapFilter.querySelectorAll('.map__filters select');
+  var mapFilterFieldset = wrapperMapFilter.querySelector('.map__filters fieldset');
   var iconMainWidth = mainIconButton.offsetWidth;
   var iconMainHieght = mainIconButton.offsetHeight;
   var iconMainHeightAfter = 22;
@@ -49,6 +55,7 @@
     mainForm.classList.remove('ad-form--disabled');
     onAdjustRoomToGuest();
     activateFormElement(formFieldsets);
+    window.filterPins.activateOffmapFilter(mapFilter, mapFilterSelect, mapFilterFieldset);
     window.backend.load(window.xmlHttpRequest.successHandler, window.xmlHttpRequest.errorHandler);
     window.backend.xmlHttpSetup();
     mainIconButton.removeEventListener('mousedown', onTurnOnLeftButton);
@@ -61,17 +68,15 @@
   };
 
   var onAdjustRoomToGuest = function () {
-    for (var i = 0; i < selectRoomNumber.length; i++) {
-      if (selectRoomNumber.item(i).selected) {
-        for (var j = 0; j < selectCapacity.length; j++) {
-          if (selectCapacity.options[j].value === selectRoomNumber.options[i].value) {
-            selectCapacity.item(j).selected = true;
-          } else if (selectRoomNumber.options[i].value === '100') {
-            selectCapacity.item(j).selected = true;
-          }
-        }
+    selectRoomNumberOption.forEach(function (roomElem, index) {
+      if (selectRoomNumber.selectedIndex === index) {
+        var result = window.data.roomsForGuest.find(function (item) {
+          return item.ROOM === Number(roomElem.value);
+        });
+        selectCapacity.value = result.CAPACITY;
       }
-    }
+    });
+    window.valid.onValidationRoomToGuest();
   };
 
   function showActivePage() {

@@ -2,7 +2,6 @@
 
 (function () {
   var ESC_KEY = 'Escape';
-  var arrayOfObjects = [];
   var body = document.querySelector('body');
   var main = document.querySelector('main');
   var map = document.querySelector('.map');
@@ -11,14 +10,16 @@
   var successTemplate = document.querySelector('#success').content.querySelector('.success');
   var errorTemplate = document.querySelector('#error').content.querySelector('.error');
   var noticeBlock = main.querySelector('.notice');
+  var wrapperMapFilter = document.querySelector('.map__filters-container');
+  var mapFilter = wrapperMapFilter.querySelector('.map__filters');
+  var mapFilterSelect = wrapperMapFilter.querySelectorAll('.map__filters select');
+  var mapFilterFieldset = wrapperMapFilter.querySelector('.map__filters fieldset');
 
-  var successHandler = function (pins) {
-    for (var i = 0; i < 8; i++) {
-      arrayOfObjects.push(pins[i]);
-    }
-    return [arrayOfObjects,
-      window.pin.renderPin(window.xmlHttpRequest.arrayOfObjects),
-      window.cards.getCardsPins()];
+  var successHandler = function (data) {
+    window.filterPins.activateMapFilter(mapFilter, mapFilterSelect, mapFilterFieldset);
+    window.filterPins.updatePins(data);
+    window.pin.renderPin(data);
+    window.cards.getCardsPins(data);
   };
 
   var errorHandler = function (errorMessage) {
@@ -100,7 +101,6 @@
   mainForm.addEventListener('submit', formHandler);
 
   window.xmlHttpRequest = {
-    arrayOfObjects: arrayOfObjects,
     successHandler: successHandler,
     errorHandler: errorHandler,
   };

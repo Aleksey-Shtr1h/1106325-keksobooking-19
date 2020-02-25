@@ -23,4 +23,7 @@
 
   selectCapacity.addEventListener('input', onValidationRoomToGuest);
 
+  window.valid = {
+    onValidationRoomToGuest: onValidationRoomToGuest,
+  };
 })();

@@ -25,7 +25,6 @@
         case 404:
           onError('Ничего не найдено');
           break;
-
         default:
           onError('Cтатус ответа: : ' + xhr.status + ' ' + xhr.statusText);
       }
