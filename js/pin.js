@@ -21,6 +21,7 @@
   var maxLeft = mapBlock - iconMainWidth / 2;
 
   var renderPin = function (arg) {
+    // console.log(arg.length);
     var takeNumber = arg.length > 5 ? 5 : arg.length;
     var fragment = document.createDocumentFragment();
 

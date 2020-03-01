@@ -65,10 +65,6 @@
     }
 
     function showIndexCard(target) {
-      // var activeCard = map.querySelector('.map__card');
-      // if (activeCard) {
-      //   activeCard.remove();
-      // }
       btnPins.forEach(function (item, index) {
         if (item === target) {
           window.cards.renderCard(http, index);
@@ -80,15 +76,18 @@
       });
     }
 
-    mapPinsParent.addEventListener('click', function (evt) {
+    function onTargentClick(evt) {
       var target = evt.target;
       if (target.closest('.map__pin')) {
         removeCard();
         showIndexCard(target.closest('.map__pin'));
+        evt.stopPropagation();
       } else {
         return;
       }
-    });
+    }
+
+    mapPinsParent.addEventListener('click', onTargentClick);
   }
 
   function removeCard() {
@@ -97,6 +96,7 @@
       activeCard.remove();
     }
   }
+  // mapPinsParent.removeEventListener('click', onTargentClick);
 
   window.cards = {
     renderCard: renderCard,

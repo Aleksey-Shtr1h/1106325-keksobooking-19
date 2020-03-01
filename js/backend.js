@@ -6,6 +6,8 @@
   var URLSAVE = 'https://js.dump.academy/keksobooking';
   var statusCode = {
     OK: 200,
+    BAD_REQUEST: 400,
+    NOT_FOUND: 404,
     TIMEOUT: 10000,
   };
 
@@ -16,13 +18,13 @@
 
     xhr.addEventListener('load', function () {
       switch (xhr.status) {
-        case 200:
+        case statusCode.OK:
           onLoad(xhr.response);
           break;
-        case 400:
+        case statusCode.BAD_REQUEST:
           onError('Неверный запрос, правильно заполните данные таблицы');
           break;
-        case 404:
+        case statusCode.NOT_FOUND:
           onError('Ничего не найдено');
           break;
         default:

@@ -16,10 +16,11 @@
   var mapFilterFieldset = wrapperMapFilter.querySelector('.map__filters fieldset');
 
   var successHandler = function (data) {
+    // console.log(data);
     window.filterPins.activateMapFilter(mapFilter, mapFilterSelect, mapFilterFieldset);
+    // window.pin.renderPin(data);
     window.filterPins.updatePins(data);
-    window.pin.renderPin(data);
-    window.cards.getCardsPins(data);
+    // window.cards.getCardsPins(data);
   };
 
   var errorHandler = function (errorMessage) {
