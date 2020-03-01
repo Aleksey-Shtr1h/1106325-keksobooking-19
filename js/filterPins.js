@@ -134,7 +134,7 @@
   });
 
   function debounce() {
-    setTimeout(function() {
+    setTimeout(function () {
       updatePins(httpPins);
     }, DEBOUNCE_INTERVAL);
   }
