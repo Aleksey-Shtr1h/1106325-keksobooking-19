@@ -1,34 +1,34 @@
 'use strict';
 
 (function () {
+  // рандомные значения
+  // var selectRandomValues = function (min, max) {
+  //   return Math.round(min - 0.5 + Math.random() * (max - min + 1));
+  // };
 
-  var selectRandomValues = function (min, max) {
-    return Math.round(min - 0.5 + Math.random() * (max - min + 1));
-  };
+  // var renderRandomValues = function (countArray) {
+  //   return Math.floor(Math.random() * countArray.length);
+  // };
 
-  var renderRandomValues = function (countArray) {
-    return Math.floor(Math.random() * countArray.length);
-  };
+  // function getAdjustArray(arg) {
+  //   var adjust = [];
 
-  function getAdjustArray(arg) {
-    var adjust = [];
+  //   for (var i = 0; i < arg.length; i++) {
+  //     if (!adjust.includes(arg[i])) {
+  //       adjust.push(arg[i]);
+  //     }
+  //   }
+  //   return adjust;
+  // }
 
-    for (var i = 0; i < arg.length; i++) {
-      if (!adjust.includes(arg[i])) {
-        adjust.push(arg[i]);
-      }
-    }
-    return adjust;
-  }
-
-  function getLengthArray(arg) {
-    var result = [];
-    var len = Math.random() * arg.length;
-    for (var i = 0; i < len; i++) {
-      result.push(arg[i]);
-    }
-    return getAdjustArray(result);
-  }
+  // function getLengthArray(arg) {
+  //   var result = [];
+  //   var len = Math.random() * arg.length;
+  //   for (var i = 0; i < len; i++) {
+  //     result.push(arg[i]);
+  //   }
+  //   return getAdjustArray(result);
+  // }
 
   function getRoomGuestCard(room, guest) {
     var roomValue = ' комната';
@@ -64,15 +64,14 @@
       photoElement.src = dataElem;
       div.append(photoElement);
     });
-
     imgArray[0].remove();
   }
 
 
   window.util = {
-    selectRandomValues: selectRandomValues,
-    renderRandomValues: renderRandomValues,
-    getLengthArray: getLengthArray,
+    // selectRandomValues: selectRandomValues,
+    // renderRandomValues: renderRandomValues,
+    // getLengthArray: getLengthArray,
     getRoomGuestCard: getRoomGuestCard,
     getFeatureItemCard: getFeatureItemCard,
     getPhotoCard: getPhotoCard,

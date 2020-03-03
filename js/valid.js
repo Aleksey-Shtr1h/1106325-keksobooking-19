@@ -26,4 +26,5 @@
   window.valid = {
     onValidationRoomToGuest: onValidationRoomToGuest,
   };
+  // window.valid.onValidationRoomToGuest;
 })();

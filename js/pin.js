@@ -21,10 +21,10 @@
   var maxLeft = mapBlock - iconMainWidth / 2;
 
   var renderPin = function (arg) {
-    // console.log(arg.length);
+    console.log(arg);
     var takeNumber = arg.length > 5 ? 5 : arg.length;
     var fragment = document.createDocumentFragment();
-
+    // mapPins.innerHTML = '';
     for (var i = 0; i < takeNumber; i++) {
       var pinElement = pinTemplate.cloneNode(true);
 
@@ -39,6 +39,7 @@
     mapPins.appendChild(fragment);
   };
 
+  // Движение главного пина
   mainIconButton.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
@@ -88,7 +89,6 @@
 
     var onMouseUp = function (upEvt) {
       upEvt.preventDefault();
-      // window.form.indicateCoordinates();
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
     };
@@ -98,7 +98,6 @@
   });
 
   // Очистка пинов
-
   function cleanPinsBtn() {
     var btnPins = document.querySelectorAll('.map__pin:not(.map__pin--main');
     btnPins.forEach(function (btnPin) {

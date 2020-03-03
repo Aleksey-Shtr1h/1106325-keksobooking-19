@@ -8,7 +8,6 @@
   var map = document.querySelector('.map');
 
   // Заполнение карточек
-
   var renderCard = function (arg, index) {
     var fragmentCard = document.createDocumentFragment();
     var cardElement = cardTemplate.cloneNode(true);
@@ -46,6 +45,7 @@
     return cardElement;
   };
 
+  // Показ карточек пинов
   function getCardsPins(http) {
     var mapPinsParent = document.querySelector('.map__pins');
     var btnPins = document.querySelectorAll('.map__pin:not(.map__pin--main');
@@ -86,17 +86,16 @@
         return;
       }
     }
-
     mapPinsParent.addEventListener('click', onTargentClick);
   }
 
+  // Удаление карточек пинов
   function removeCard() {
     var activeCard = map.querySelector('.map__card');
     if (activeCard) {
       activeCard.remove();
     }
   }
-  // mapPinsParent.removeEventListener('click', onTargentClick);
 
   window.cards = {
     renderCard: renderCard,

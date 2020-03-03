@@ -57,7 +57,9 @@
     activateFormElement(formFieldsets);
     window.filterPins.activateOffmapFilter(mapFilter, mapFilterSelect, mapFilterFieldset);
     window.backend.load(window.xmlHttpRequest.successHandler, window.xmlHttpRequest.errorHandler);
-    window.backend.xmlHttpSetup();
+    // window.backend.xmlHttpSetup();
+    // window.valid.onValidationRoomToGuest;
+    window.filterPins.addFilterListner();
     mainIconButton.removeEventListener('mousedown', onTurnOnLeftButton);
   };
 
@@ -94,15 +96,18 @@
 
   resetBtn.addEventListener('click', function () {
     mainForm.reset();
+    window.valid.onValidationRoomToGuest();
   });
 
   activateOffFormElement(formFieldsets);
 
   window.form = {
+    enabledForm: enabledForm,
     indicateCoordinates: indicateCoordinates,
     onTurnOnLeftButton: onTurnOnLeftButton,
     showActivePage: showActivePage,
     activateOffFormElement: activateOffFormElement,
     onAdjustRoomToGuest: onAdjustRoomToGuest,
   };
+  // window.form.enabledForm
 })();

@@ -3,6 +3,7 @@
 (function () {
 
   var wrapperMapFilter = document.querySelector('.map__filters-container');
+  var filterForm = wrapperMapFilter.querySelector('.map__filters');
   var filterHousingType = wrapperMapFilter.querySelector('#housing-type');
   var filterHousingPrice = wrapperMapFilter.querySelector('#housing-price');
   var filterHousingRoom = wrapperMapFilter.querySelector('#housing-rooms');
@@ -10,18 +11,20 @@
   var filterHousingFeature = wrapperMapFilter.querySelector('.map__features');
   var featureLabels = wrapperMapFilter.querySelectorAll('.map__checkbox');
 
-  var housingTypeValue = window.data.filterValueStart.ANY;
-  var housingPriceValue = window.data.filterValueStart.ANY;
-  var housingRoomValue = window.data.filterValueStart.ANY;
-  var housingGuestValue = window.data.filterValueStart.ANY;
+  var housingFeatureArray = [];
+  var housingTypeValue;
+  var housingPriceValue;
+  var housingRoomValue;
+  var housingGuestValue;
   var DEBOUNCE_INTERVAL = 500;
 
-  var housingFeatureArray = [];
-
-  var httpPins = [];
-
-
   function activateOffmapFilter(form, select, fieldset) {
+    housingFeatureArray = [];
+    housingTypeValue = window.data.filterValueStart.ANY;
+    housingPriceValue = window.data.filterValueStart.ANY;
+    housingRoomValue = window.data.filterValueStart.ANY;
+    housingGuestValue = window.data.filterValueStart.ANY;
+
     form.classList.add('ad-form--disabled');
     select.forEach(function (elemSelect) {
       elemSelect.setAttribute('disabled', 'disabled');
@@ -38,7 +41,7 @@
   }
 
   var updatePins = function (data) {
-    httpPins = data;
+    var httpPins = data.slice();
     var filterPinsData = httpPins.filter(function (it) {
       return (getFilterType(it) && getFilterPrice(it) && getFilterRoom(it) && getFilterGuest(it)) && getFilterFeature(it);
     });
@@ -49,15 +52,18 @@
     window.cards.getCardsPins(filterPinsData);
   };
 
+  // Фильтр типа жилья
+
   function getFilterType(httpElem) {
-    return housingTypeValue === window.data.filterValueStart.ANY ? true : httpElem.offer.type === housingTypeValue;
+    return housingTypeValue === window.data.filterValueStart.ANY ? true : housingTypeValue === httpElem.offer.type;
   }
 
-  filterHousingType.addEventListener('change', function () {
+  function onFilterTypeChange() {
     housingTypeValue = filterHousingType.value;
     debounce();
-    // window.debounce(updatePins(httpPins));
-  });
+  }
+
+  // Фильтр цены
 
   function getFilterPrice(httpElem) {
     var result = window.data.filterValuePrice.find(function (item) {
@@ -71,28 +77,34 @@
     }
   }
 
-  filterHousingPrice.addEventListener('change', function () {
+  function onFilterPriceChange() {
     housingPriceValue = filterHousingPrice.value;
     debounce();
-  });
+  }
+
+  // Фильтр комнат
 
   function getFilterRoom(httpElem) {
-    return housingRoomValue === window.data.filterValueStart.ANY ? true : httpElem.offer.rooms === Number(housingRoomValue);
+    return housingRoomValue === window.data.filterValueStart.ANY ? true : Number(housingRoomValue) === httpElem.offer.rooms;
   }
 
-  filterHousingRoom.addEventListener('change', function () {
+  function onFilterRoomChange() {
     housingRoomValue = filterHousingRoom.value;
     debounce();
-  });
-
-  function getFilterGuest(httpElem) {
-    return housingGuestValue === window.data.filterValueStart.ANY ? true : httpElem.offer.guests === Number(housingGuestValue);
   }
 
-  filterHousingGuest.addEventListener('change', function () {
+  // Фильтр гостей
+
+  function getFilterGuest(httpElem) {
+    return housingGuestValue === window.data.filterValueStart.ANY ? true : Number(housingGuestValue) === httpElem.offer.guests;
+  }
+
+  function onFilterGuestChange() {
     housingGuestValue = filterHousingGuest.value;
     debounce();
-  });
+  }
+
+  // Фильтр удобств
 
   function fillFeatureArray(tg) {
     if (tg.checked) {
@@ -101,24 +113,21 @@
       var result = housingFeatureArray.findIndex(function (item) {
         return item === tg.value;
       });
-
       housingFeatureArray.splice(result, 1);
     }
   }
 
   function getFilterFeature(httpElem) {
     var result = true;
-
     housingFeatureArray.forEach(function (elem) {
       if (!httpElem.offer.features.includes(elem)) {
         result = false;
       }
     });
-
     return result;
   }
 
-  filterHousingFeature.addEventListener('change', function (evt) {
+  function onFilterFeatureChange(evt) {
     var target = evt.target;
     if (target.closest('.map__checkbox')) {
       featureLabels.forEach(function (elem) {
@@ -131,19 +140,42 @@
       });
       evt.stopPropagation();
     }
-  });
+  }
 
   function debounce() {
     setTimeout(function () {
-      updatePins(httpPins);
+      updatePins(window.xmlHttpRequest.offer);
     }, DEBOUNCE_INTERVAL);
   }
 
+  function resetFilterForm() {
+    filterForm.reset();
+  }
+
+  function addFilterListner() {
+    filterHousingType.addEventListener('change', onFilterTypeChange);
+    filterHousingPrice.addEventListener('change', onFilterPriceChange);
+    filterHousingRoom.addEventListener('change', onFilterRoomChange);
+    filterHousingGuest.addEventListener('change', onFilterGuestChange);
+    filterHousingFeature.addEventListener('change', onFilterFeatureChange);
+  }
+
+  function removeFilterListner() {
+    filterHousingType.removeEventListener('change', onFilterTypeChange);
+    filterHousingPrice.removeEventListener('change', onFilterPriceChange);
+    filterHousingRoom.removeEventListener('change', onFilterRoomChange);
+    filterHousingGuest.removeEventListener('change', onFilterGuestChange);
+    filterHousingFeature.removeEventListener('change', onFilterFeatureChange);
+  }
+
   window.filterPins = {
+    addFilterListner: addFilterListner,
+    removeFilterListner: removeFilterListner,
+    resetFilterForm: resetFilterForm,
     updatePins: updatePins,
     activateOffmapFilter: activateOffmapFilter,
     activateMapFilter: activateMapFilter,
   };
 
 })();
-// window.filterPins.updatePins
+// window.filterPins.addListner
