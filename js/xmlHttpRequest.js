@@ -14,7 +14,6 @@
   var mapFilter = wrapperMapFilter.querySelector('.map__filters');
   var mapFilterSelect = wrapperMapFilter.querySelectorAll('.map__filters select');
   var mapFilterFieldset = wrapperMapFilter.querySelector('.map__filters fieldset');
-  var offer = [];
 
   var successHandler = function (data) {
     window.xmlHttpRequest.offer = data.slice();
@@ -46,7 +45,7 @@
     mainForm.reset();
     window.form.activateOffFormElement(formFieldsets);
     window.filterPins.resetFilterForm();
-    window.filterPins.removeFilterListner()
+    window.filterPins.removeFilterListner();
     window.pin.cleanPinsBtn();
     window.cards.removeCard();
     window.form.showActivePage();
