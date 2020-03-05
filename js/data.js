@@ -10,10 +10,10 @@
   };
 
   var TypeToPrice = [
-    {TYPE: 'bungalo', MIN: 'min', PRICE: '0', MESSAGE: 'Цена от 0 до 1000 - это бунгало'},
-    {TYPE: 'flat', MIN: 'min', PRICE: '1000', MESSAGE: 'Цена от 1000 до 5000 - это бунгало'},
-    {TYPE: 'house', MIN: 'min', PRICE: '5000', MESSAGE: 'Цена от 5000 до 10000 - это бунгало'},
-    {TYPE: 'palace', MIN: 'min', PRICE: '10000', MESSAGE: 'Цена от 10000 до 1000000 - это бунгало'},
+    {TYPE: 'bungalo', PRICEMIN: '0', PRICEMAX: '999', MESSAGE: 'Цена от 0 до 1000 - это бунгало'},
+    {TYPE: 'flat', PRICEMIN: '1000', PRICEMAX: '4999', MESSAGE: 'Цена от 1000 до 5000 - это квартира'},
+    {TYPE: 'house', PRICEMIN: '5000', PRICEMAX: '9999', MESSAGE: 'Цена от 5000 до 10000 - это дом'},
+    {TYPE: 'palace', PRICEMIN: '10000', PRICEMAX: '999999', MESSAGE: 'Цена от 10000 до 1000000 - это дворец'},
   ];
 
   var featureDependence = {

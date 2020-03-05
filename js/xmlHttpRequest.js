@@ -109,6 +109,8 @@
   btnSubmit.addEventListener('click', function () {
     window.valid.onValidationRoomToGuest();
     window.valid.onValidationTitle();
+    window.valid.onValidationPrice();
+    window.valid.onValidPriceToType();
   });
 
   mainForm.addEventListener('submit', formHandler);
