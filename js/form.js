@@ -68,20 +68,6 @@
     });
   }
 
-  // var onAdjustRoomToGuest = function () {
-  //   selectRoomNumberOption.forEach(function (roomElem, index) {
-  //     if (selectRoomNumber.selectedIndex === index) {
-  //       var result = window.data.roomsForGuest.find(function (item) {
-  //         return item.ROOM === Number(roomElem.value);
-  //       });
-  //       selectCapacity.value = result.CAPACITY;
-  //     }
-  //   });
-  //   window.valid.onValidationRoomToGuest();
-  // };
-
-  // selectRoomNumber.addEventListener('change', onAdjustRoomToGuest);
-
   resetBtn.addEventListener('click', function () {
     mainForm.reset();
     // window.valid.onValidationRoomToGuest();
