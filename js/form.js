@@ -8,10 +8,6 @@
   var mainForm = document.querySelector('.ad-form');
   var formFieldsets = mainForm.querySelectorAll('.ad-form fieldset');
   var userInputAddress = mainForm.querySelector('#address');
-  var selectRoomNumber = mainForm.querySelector('#room_number');
-  var selectRoomNumberOption = mainForm.querySelectorAll('#room_number option');
-  var selectCapacity = mainForm.querySelector('#capacity');
-  // var selectCapacityOption = mainForm.querySelectorAll('#capacity option');
   var resetBtn = mainForm.querySelector('.ad-form__reset');
   var wrapperMapFilter = document.querySelector('.map__filters-container');
   var mapFilter = wrapperMapFilter.querySelector('.map__filters');
@@ -23,18 +19,12 @@
   var topAddress = mainIconButton.style.top;
   var leftAddress = mainIconButton.style.left;
 
-
-  // для задания.......................................................
-  var priceForm = document.querySelector('#price'); //  ...................
-  priceForm.value = 5000; //  .............................................
-  var titleForm = document.querySelector('#title'); //  ...................
-  titleForm.value = 'Et id sunt veniam velit proident excepteur laboris adipisicing adipisicing dolore minim.'; //  ...........................
-
   function activateOffFormElement(arrayAtr) {
     for (var i = 0; i < arrayAtr.length; i++) {
       arrayAtr[i].setAttribute('disabled', '');
-      userInputAddress.value = indicateCoordinates(leftAddress, topAddress);
     }
+    userInputAddress.setAttribute('disabled', 'disabled');
+    userInputAddress.value = indicateCoordinates(leftAddress, topAddress);
   }
 
   function activateFormElement(arrayAtr) {
@@ -53,12 +43,12 @@
   var enabledForm = function () {
     map.classList.remove('map--faded');
     mainForm.classList.remove('ad-form--disabled');
-    onAdjustRoomToGuest();
+    // onAdjustRoomToGuest();
     activateFormElement(formFieldsets);
+    // window.valid.onValidationRoomToGuest();
     window.filterPins.activateOffmapFilter(mapFilter, mapFilterSelect, mapFilterFieldset);
     window.backend.load(window.xmlHttpRequest.successHandler, window.xmlHttpRequest.errorHandler);
     // window.backend.xmlHttpSetup();
-    // window.valid.onValidationRoomToGuest;
     window.filterPins.addFilterListner();
     mainIconButton.removeEventListener('mousedown', onTurnOnLeftButton);
   };
@@ -67,18 +57,6 @@
     if (evt.button === 0) {
       enabledForm();
     }
-  };
-
-  var onAdjustRoomToGuest = function () {
-    selectRoomNumberOption.forEach(function (roomElem, index) {
-      if (selectRoomNumber.selectedIndex === index) {
-        var result = window.data.roomsForGuest.find(function (item) {
-          return item.ROOM === Number(roomElem.value);
-        });
-        selectCapacity.value = result.CAPACITY;
-      }
-    });
-    window.valid.onValidationRoomToGuest();
   };
 
   function showActivePage() {
@@ -90,15 +68,26 @@
     });
   }
 
-  showActivePage();
+  // var onAdjustRoomToGuest = function () {
+  //   selectRoomNumberOption.forEach(function (roomElem, index) {
+  //     if (selectRoomNumber.selectedIndex === index) {
+  //       var result = window.data.roomsForGuest.find(function (item) {
+  //         return item.ROOM === Number(roomElem.value);
+  //       });
+  //       selectCapacity.value = result.CAPACITY;
+  //     }
+  //   });
+  //   window.valid.onValidationRoomToGuest();
+  // };
 
-  selectRoomNumber.addEventListener('change', onAdjustRoomToGuest);
+  // selectRoomNumber.addEventListener('change', onAdjustRoomToGuest);
 
   resetBtn.addEventListener('click', function () {
     mainForm.reset();
-    window.valid.onValidationRoomToGuest();
+    // window.valid.onValidationRoomToGuest();
   });
 
+  showActivePage();
   activateOffFormElement(formFieldsets);
 
   window.form = {
@@ -107,7 +96,6 @@
     onTurnOnLeftButton: onTurnOnLeftButton,
     showActivePage: showActivePage,
     activateOffFormElement: activateOffFormElement,
-    onAdjustRoomToGuest: onAdjustRoomToGuest,
   };
   // window.form.enabledForm
 })();

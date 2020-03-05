@@ -6,6 +6,7 @@
   var main = document.querySelector('main');
   var map = document.querySelector('.map');
   var mainForm = document.querySelector('.ad-form');
+  var btnSubmit = mainForm.querySelector('.ad-form__submit');
   var formFieldsets = mainForm.querySelectorAll('.ad-form fieldset');
   var successTemplate = document.querySelector('#success').content.querySelector('.success');
   var errorTemplate = document.querySelector('#error').content.querySelector('.error');
@@ -21,7 +22,7 @@
     window.filterPins.activateMapFilter(mapFilter, mapFilterSelect, mapFilterFieldset);
     window.pin.renderPin(data);
     // window.filterPins.updatePins(data);
-    // window.cards.getCardsPins(data);
+    window.cards.getCardsPins(data);
   };
 
   var errorHandler = function (errorMessage) {
@@ -30,6 +31,8 @@
   };
 
   var formHandler = function (evt) {
+    var userInputAddress = mainForm.querySelector('#address');
+    userInputAddress.removeAttribute('disabled', 'disabled');
     var formDataPost = new FormData(mainForm);
     window.backend.save(formDataPost, function () {
       createBlockSuccess();
@@ -102,6 +105,11 @@
       }
     });
   }
+
+  btnSubmit.addEventListener('click', function () {
+    window.valid.onValidationRoomToGuest();
+    window.valid.onValidationTitle();
+  });
 
   mainForm.addEventListener('submit', formHandler);
 

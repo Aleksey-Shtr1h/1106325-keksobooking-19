@@ -103,4 +103,4 @@
     removeCard: removeCard,
   };
 })();
-// window.cards.removeCard
+// window.cards.getCardsPins

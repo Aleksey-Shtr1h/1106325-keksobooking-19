@@ -3,11 +3,18 @@
 (function () {
 
   var type = {
-    'flat': 'Квартира',
-    'bungalo': 'Бунгало',
-    'house': 'Дом',
-    'palace': 'Дворец',
+    flat: 'Квартира',
+    bungalo: 'Бунгало',
+    house: 'Дом',
+    palace: 'Дворец',
   };
+
+  var TypeToPrice = [
+    {TYPE: 'bungalo', MIN: 'min', PRICE: '0', MESSAGE: 'Цена от 0 до 1000 - это бунгало'},
+    {TYPE: 'flat', MIN: 'min', PRICE: '1000', MESSAGE: 'Цена от 1000 до 5000 - это бунгало'},
+    {TYPE: 'house', MIN: 'min', PRICE: '5000', MESSAGE: 'Цена от 5000 до 10000 - это бунгало'},
+    {TYPE: 'palace', MIN: 'min', PRICE: '10000', MESSAGE: 'Цена от 10000 до 1000000 - это бунгало'},
+  ];
 
   var featureDependence = {
     'popup__feature popup__feature--wifi': 'wifi',
@@ -44,6 +51,7 @@
   window.data = {
     featureDependence: featureDependence,
     type: type,
+    TypeToPrice: TypeToPrice,
     roomsForGuest: roomsForGuest,
     filterValueStart: filterValueStart,
     filterValuePrice: filterValuePrice,

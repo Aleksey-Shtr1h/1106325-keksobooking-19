@@ -8,6 +8,7 @@
     OK: 200,
     BAD_REQUEST: 400,
     NOT_FOUND: 404,
+    SERVICE_UNAVAILABLE: 503,
     TIMEOUT: 10000,
   };
 
@@ -26,6 +27,9 @@
           break;
         case statusCode.NOT_FOUND:
           onError('Ничего не найдено');
+          break;
+        case statusCode.SERVICE_UNAVAILABLE:
+          onError('Сервер не отвечает');
           break;
         default:
           onError('Cтатус ответа: : ' + xhr.status + ' ' + xhr.statusText);
