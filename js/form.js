@@ -70,6 +70,9 @@
 
   resetBtn.addEventListener('click', function () {
     mainForm.reset();
+    window.pin.returnMainPin();
+    // activateOffFormElement(formFieldsets);
+    window.xmlHttpRequest.hideMainForm();
     // window.valid.onValidationRoomToGuest();
   });
 

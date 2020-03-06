@@ -19,6 +19,8 @@
   var maxTop = locationMaxY;
   var minLeft = (mapBlock - mapBlock) - iconMainWidth / 2;
   var maxLeft = mapBlock - iconMainWidth / 2;
+  var mainPinStartTop = mainIconButton.offsetTop;
+  var mainPinStartLeft = mainIconButton.offsetLeft;
 
   var renderPin = function (arg) {
     var takeNumber = arg.length > 5 ? 5 : arg.length;
@@ -103,9 +105,16 @@
     });
   }
 
+  // Возврат метики
+  function returnMainPin() {
+    mainIconButton.style.top = mainPinStartTop + 'px';
+    mainIconButton.style.left = mainPinStartLeft + 'px';
+  }
+
   window.pin = {
     renderPin: renderPin,
     cleanPinsBtn: cleanPinsBtn,
+    returnMainPin: returnMainPin,
   };
-
+  // window.pin.returnMainPin
 })();

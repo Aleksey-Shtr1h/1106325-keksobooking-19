@@ -51,6 +51,7 @@
     window.filterPins.removeFilterListner();
     window.pin.cleanPinsBtn();
     window.cards.removeCard();
+    window.pin.returnMainPin();
     window.form.showActivePage();
   }
 
@@ -118,5 +119,7 @@
   window.xmlHttpRequest = {
     successHandler: successHandler,
     errorHandler: errorHandler,
+    hideMainForm: hideMainForm,
   };
+  // window.xmlHttpRequest.hideMainForm
 })();

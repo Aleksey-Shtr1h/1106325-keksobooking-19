@@ -64,7 +64,16 @@
       });
     }
 
+    function removeActivePins() {
+      var activePins = mapPins.querySelector('.map__pin--active');
+      if (activePins) {
+        activePins.classList.remove('map__pin--active');
+      }
+    }
+
     function showIndexCard(target) {
+      removeActivePins();
+      target.classList.add('map__pin--active');
       btnPins.forEach(function (item, index) {
         if (item === target) {
           window.cards.renderCard(http, index);
