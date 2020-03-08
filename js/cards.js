@@ -1,14 +1,21 @@
 'use strict';
 (function () {
   var ESC_KEY = 'Escape';
-  var mapPins = document.querySelector('.map__pins');
-  var filter = document.querySelector('.map__filters-container');
 
-  var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
+  var TypesOfHouses = {
+    BUNGALO: 'Бунгало',
+    FLAT: 'Квартира',
+    HOUSE: 'Дом',
+    PALACE: 'Дворец',
+  };
+
+  var body = document.querySelector('body');
   var map = document.querySelector('.map');
+  var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
+  var mapPins = map.querySelector('.map__pins');
+  var filter = map.querySelector('.map__filters-container');
 
-  // Заполнение карточек
-  var renderCard = function (arg, index) {
+  function renderCard(dataCard, indexCard) {
     var fragmentCard = document.createDocumentFragment();
     var cardElement = cardTemplate.cloneNode(true);
     var featureItem = cardElement.querySelectorAll('.popup__feature');
@@ -16,25 +23,25 @@
     var imgPhoto = divPhoto.querySelector('img');
     var imgPhotoArray = divPhoto.querySelectorAll('img');
 
-    cardElement.querySelector('.popup__avatar').src = arg[index].author.avatar;
+    cardElement.querySelector('.popup__avatar').src = dataCard[indexCard].author.avatar;
 
-    cardElement.querySelector('.popup__title').textContent = arg[index].offer.title;
+    cardElement.querySelector('.popup__title').textContent = dataCard[indexCard].offer.title;
 
-    cardElement.querySelector('.popup__text--address').textContent = arg[index].offer.address;
+    cardElement.querySelector('.popup__text--address').textContent = dataCard[indexCard].offer.address;
 
-    cardElement.querySelector('.popup__text--price').textContent = arg[index].offer.price + ' ₽/ночь';
+    cardElement.querySelector('.popup__text--price').textContent = dataCard[indexCard].offer.price + ' ₽/ночь';
 
-    cardElement.querySelector('.popup__type').textContent = window.data.type[arg[index].offer.type];
+    cardElement.querySelector('.popup__type').textContent = TypesOfHouses[dataCard[indexCard].offer.type.toUpperCase()];
 
-    cardElement.querySelector('.popup__text--capacity').textContent = window.util.getRoomGuestCard(arg[index].offer.rooms, arg[index].offer.guests);
+    cardElement.querySelector('.popup__text--capacity').textContent = window.util.getRoomGuestCard(dataCard[indexCard].offer.rooms, dataCard[indexCard].offer.guests);
 
-    cardElement.querySelector('.popup__text--time').textContent = 'заезд после ' + arg[index].offer.checkin + ' , выезд до ' + arg[index].offer.checkout;
+    cardElement.querySelector('.popup__text--time').textContent = 'заезд после ' + dataCard[indexCard].offer.checkin + ' , выезд до ' + dataCard[indexCard].offer.checkout;
 
-    window.util.getFeatureItemCard(featureItem, arg[index].offer.features);
+    window.util.showFeatureCard(featureItem, dataCard[indexCard].offer.features);
 
-    cardElement.querySelector('.popup__description').textContent = arg[index].offer.description;
+    cardElement.querySelector('.popup__description').textContent = dataCard[indexCard].offer.description;
 
-    window.util.getPhotoCard(arg[index].offer.photos, divPhoto, imgPhoto, imgPhotoArray);
+    window.util.showPhotoCard(dataCard[indexCard].offer.photos, divPhoto, imgPhoto, imgPhotoArray);
 
     filter.before(cardElement);
 
@@ -43,10 +50,9 @@
     mapPins.appendChild(fragmentCard);
 
     return cardElement;
-  };
+  }
 
-  // Показ карточек пинов
-  function getCardsPins(http) {
+  function showCard(dataCard) {
     var mapPinsParent = document.querySelector('.map__pins');
     var btnPins = document.querySelectorAll('.map__pin:not(.map__pin--main');
 
@@ -56,49 +62,45 @@
       });
     }
 
-    function closePopupBtnEsx(btnClose, cardPopup) {
-      btnClose.addEventListener('keydown', function (evt) {
-        if (evt.key === ESC_KEY) {
+    function closePopupKeydown(btnClose, cardPopup) {
+      btnClose.addEventListener('keydown', function (evtBtn) {
+        if (evtBtn.key === ESC_KEY) {
+          cardPopup.remove();
+        }
+      });
+      body.addEventListener('keydown', function (evtBody) {
+        if (evtBody.key === ESC_KEY) {
           cardPopup.remove();
         }
       });
     }
 
-    function removeActivePins() {
-      var activePins = mapPins.querySelector('.map__pin--active');
-      if (activePins) {
-        activePins.classList.remove('map__pin--active');
-      }
-    }
-
     function showIndexCard(target) {
-      removeActivePins();
-      target.classList.add('map__pin--active');
+      window.pins.addActiveClass(target);
       btnPins.forEach(function (item, index) {
         if (item === target) {
-          window.cards.renderCard(http, index);
+          renderCard(dataCard, index);
           var btnPopupClose = document.querySelector('.popup__close');
           var articlePopup = map.querySelector('.map__card.popup');
           closePopupClick(btnPopupClose, articlePopup);
-          closePopupBtnEsx(btnPopupClose, articlePopup);
+          closePopupKeydown(btnPopupClose, articlePopup);
         }
       });
     }
 
-    function onTargentClick(evt) {
+    function onTargetClick(evt) {
       var target = evt.target;
-      if (target.closest('.map__pin')) {
-        removeCard();
-        showIndexCard(target.closest('.map__pin'));
-        evt.stopPropagation();
-      } else {
+      if (!target.closest('.map__pin')) {
         return;
       }
+      removeCard();
+      window.pins.removeActiveClass();
+      showIndexCard(target.closest('.map__pin'));
+      evt.stopPropagation();
     }
-    mapPinsParent.addEventListener('click', onTargentClick);
+    mapPinsParent.addEventListener('click', onTargetClick);
   }
 
-  // Удаление карточек пинов
   function removeCard() {
     var activeCard = map.querySelector('.map__card');
     if (activeCard) {
@@ -107,9 +109,9 @@
   }
 
   window.cards = {
-    renderCard: renderCard,
-    getCardsPins: getCardsPins,
-    removeCard: removeCard,
+    render: renderCard,
+    remove: removeCard,
+    show: showCard,
   };
 })();
 // window.cards.getCardsPins

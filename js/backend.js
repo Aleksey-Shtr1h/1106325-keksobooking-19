@@ -2,33 +2,35 @@
 
 (function () {
 
-  var URLLOAD = 'https://js.dump.academy/keksobooking/data';
-  var URLSAVE = 'https://js.dump.academy/keksobooking';
-  var statusCode = {
+  var URL_LOAD = 'https://js.dump.academy/keksobooking/data';
+  var URL_SAVE = 'https://js.dump.academy/keksobooking';
+  var TIMEOUT = 10000;
+  var RESPONSE_TYPE = 'json';
+  var StatusCodes = {
     OK: 200,
     BAD_REQUEST: 400,
     NOT_FOUND: 404,
     SERVICE_UNAVAILABLE: 503,
-    TIMEOUT: 10000,
   };
 
-  function xmlHttpSetup(onLoad, onError) {
+
+  function getDataHttpRequest(onLoad, onError) {
     var xhr = new XMLHttpRequest();
-    xhr.responseType = 'json';
-    xhr.timeout = statusCode.TIMEOUT;
+    xhr.responseType = RESPONSE_TYPE;
+    xhr.timeout = TIMEOUT;
 
     xhr.addEventListener('load', function () {
       switch (xhr.status) {
-        case statusCode.OK:
+        case StatusCodes.OK:
           onLoad(xhr.response);
           break;
-        case statusCode.BAD_REQUEST:
+        case StatusCodes.BAD_REQUEST:
           onError('Неверный запрос, правильно заполните данные таблицы');
           break;
-        case statusCode.NOT_FOUND:
+        case StatusCodes.NOT_FOUND:
           onError('Ничего не найдено');
           break;
-        case statusCode.SERVICE_UNAVAILABLE:
+        case StatusCodes.SERVICE_UNAVAILABLE:
           onError('Сервер не отвечает');
           break;
         default:
@@ -47,18 +49,21 @@
     return xhr;
   }
 
-  window.backend = {
-    load: function (onLoad, onError) {
-      var xhr = xmlHttpSetup(onLoad, onError);
-      xhr.open('GET', URLLOAD);
-      xhr.send();
-    },
-    save: function (data, onLoad, onError) {
-      var xhr = xmlHttpSetup(onLoad, onError);
-      xhr.open('POST', URLSAVE);
-      xhr.send(data);
-    },
-    xmlHttpSetup: xmlHttpSetup,
-  };
+  function loadData(onLoad, onError) {
+    var xhr = getDataHttpRequest(onLoad, onError);
+    xhr.open('GET', URL_LOAD);
+    xhr.send();
+  }
 
+  function saveData(data, onLoad, onError) {
+    var xhr = getDataHttpRequest(onLoad, onError);
+    xhr.open('POST', URL_SAVE);
+    xhr.send(data);
+  }
+
+  window.backend = {
+    load: loadData,
+    save: saveData,
+  };
+  // window.backend.load
 })();

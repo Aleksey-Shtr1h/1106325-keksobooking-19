@@ -1,9 +1,15 @@
 'use strict';
 
 (function () {
-
+  var DEBOUNCE_INTERVAL = 500;
+  var START_VALUE_FILTER = 'any';
+  var FilterValuePrice = [
+    {HOUSE_PRICE: 'any', MIN_PRICE: undefined, MAX_PRICE: undefined},
+    {HOUSE_PRICE: 'low', MIN_PRICE: 0, MAX_PRICE: 10000},
+    {HOUSE_PRICE: 'middle', MIN_PRICE: 10001, MAX_PRICE: 49999},
+    {HOUSE_PRICE: 'high', MIN_PRICE: 50000, MAX_PRICE: Infinity},
+  ];
   var wrapperMapFilter = document.querySelector('.map__filters-container');
-  var filterForm = wrapperMapFilter.querySelector('.map__filters');
   var filterHousingType = wrapperMapFilter.querySelector('#housing-type');
   var filterHousingPrice = wrapperMapFilter.querySelector('#housing-price');
   var filterHousingRoom = wrapperMapFilter.querySelector('#housing-rooms');
@@ -16,14 +22,13 @@
   var housingPriceValue;
   var housingRoomValue;
   var housingGuestValue;
-  var DEBOUNCE_INTERVAL = 500;
 
-  function activateOffmapFilter(form, select, fieldset) {
+  function deactivateMapFilter(form, select, fieldset) {
     housingFeatureArray = [];
-    housingTypeValue = window.data.filterValueStart.ANY;
-    housingPriceValue = window.data.filterValueStart.ANY;
-    housingRoomValue = window.data.filterValueStart.ANY;
-    housingGuestValue = window.data.filterValueStart.ANY;
+    housingTypeValue = START_VALUE_FILTER;
+    housingPriceValue = START_VALUE_FILTER;
+    housingRoomValue = START_VALUE_FILTER;
+    housingGuestValue = START_VALUE_FILTER;
 
     form.classList.add('ad-form--disabled');
     select.forEach(function (elemSelect) {
@@ -40,81 +45,61 @@
     fieldset.removeAttribute('disabled', 'disabled');
   }
 
-  var updatePins = function (data) {
+  function updatePins(data) {
     var httpPins = data.slice();
     var filterPinsData = httpPins.filter(function (it) {
       return (getFilterType(it) && getFilterPrice(it) && getFilterRoom(it) && getFilterGuest(it)) && getFilterFeature(it);
     });
-
-    window.cards.removeCard();
-    window.pin.cleanPinsBtn();
-    window.pin.renderPin(filterPinsData);
-    window.cards.getCardsPins(filterPinsData);
-  };
-
-  // Фильтр типа жилья
+    window.cards.remove();
+    window.pins.clean();
+    window.pins.render(filterPinsData);
+    window.cards.show(filterPinsData);
+  }
 
   function getFilterType(httpElem) {
-    return housingTypeValue === window.data.filterValueStart.ANY ? true : housingTypeValue === httpElem.offer.type;
+    return housingTypeValue === START_VALUE_FILTER || housingTypeValue === httpElem.offer.type;
   }
 
   function onFilterTypeChange() {
     housingTypeValue = filterHousingType.value;
-    debounce();
+    debouncePins();
   }
 
-  // Фильтр цены
-
   function getFilterPrice(httpElem) {
-    var result = window.data.filterValuePrice.find(function (item) {
+    var result = FilterValuePrice.find(function (item) {
       return item.HOUSE_PRICE === housingPriceValue;
     });
 
     if (httpElem.offer.price >= result.MIN_PRICE && httpElem.offer.price <= result.MAX_PRICE) {
       return housingPriceValue;
     } else {
-      return housingPriceValue === window.data.filterValueStart.ANY;
+      return housingPriceValue === START_VALUE_FILTER;
     }
   }
 
   function onFilterPriceChange() {
     housingPriceValue = filterHousingPrice.value;
-    debounce();
+    debouncePins();
   }
 
-  // Фильтр комнат
-
   function getFilterRoom(httpElem) {
-    return housingRoomValue === window.data.filterValueStart.ANY ? true : Number(housingRoomValue) === httpElem.offer.rooms;
+    return housingRoomValue === START_VALUE_FILTER || Number(housingRoomValue) === httpElem.offer.rooms;
   }
 
   function onFilterRoomChange() {
     housingRoomValue = filterHousingRoom.value;
-    debounce();
+    debouncePins();
   }
 
   // Фильтр гостей
 
   function getFilterGuest(httpElem) {
-    return housingGuestValue === window.data.filterValueStart.ANY ? true : Number(housingGuestValue) === httpElem.offer.guests;
+    return housingGuestValue === START_VALUE_FILTER || Number(housingGuestValue) === httpElem.offer.guests;
   }
 
   function onFilterGuestChange() {
     housingGuestValue = filterHousingGuest.value;
-    debounce();
-  }
-
-  // Фильтр удобств
-
-  function fillFeatureArray(tg) {
-    if (tg.checked) {
-      housingFeatureArray.push(tg.value);
-    } else if (!tg.checked) {
-      var result = housingFeatureArray.findIndex(function (item) {
-        return item === tg.value;
-      });
-      housingFeatureArray.splice(result, 1);
-    }
+    debouncePins();
   }
 
   function getFilterFeature(httpElem) {
@@ -131,25 +116,31 @@
     var target = evt.target;
     if (target.closest('.map__checkbox')) {
       featureLabels.forEach(function (elem) {
-        if (elem === target) {
-          fillFeatureArray(target);
-          debounce();
-        } else {
+        if (!elem === target) {
           return;
         }
+        fillFeatureArray(target);
+        debouncePins();
       });
       evt.stopPropagation();
     }
   }
 
-  function debounce() {
-    setTimeout(function () {
-      updatePins(window.xmlHttpRequest.offer);
-    }, DEBOUNCE_INTERVAL);
+  function fillFeatureArray(tg) {
+    if (tg.checked) {
+      housingFeatureArray.push(tg.value);
+    } else if (!tg.checked) {
+      var result = housingFeatureArray.findIndex(function (item) {
+        return item === tg.value;
+      });
+      housingFeatureArray.splice(result, 1);
+    }
   }
 
-  function resetFilterForm() {
-    filterForm.reset();
+  function debouncePins() {
+    setTimeout(function () {
+      updatePins(window.network.offer);
+    }, DEBOUNCE_INTERVAL);
   }
 
   function addFilterListner() {
@@ -169,13 +160,10 @@
   }
 
   window.filterPins = {
-    addFilterListner: addFilterListner,
-    removeFilterListner: removeFilterListner,
-    resetFilterForm: resetFilterForm,
-    updatePins: updatePins,
-    activateOffmapFilter: activateOffmapFilter,
-    activateMapFilter: activateMapFilter,
+    activate: activateMapFilter,
+    deactivate: deactivateMapFilter,
+    addListner: addFilterListner,
+    removeListner: removeFilterListner,
   };
-
 })();
-// window.filterPins.addListner
+// window.filterPins.removeListner

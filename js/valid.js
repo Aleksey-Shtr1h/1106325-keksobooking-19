@@ -2,29 +2,31 @@
 
 (function () {
 
+  var TypeToPrice = [
+    {TYPE: 'bungalo', PRICEMIN: '0', MESSAGE: 'Цена на "Бунгало" начинается с "0"'},
+    {TYPE: 'flat', PRICEMIN: '1000', MESSAGE: 'Цена на "Квартиру" начинается с "1000"'},
+    {TYPE: 'house', PRICEMIN: '5000', MESSAGE: 'Цена на "Дом" начинается с "5000"'},
+    {TYPE: 'palace', PRICEMIN: '10000', MESSAGE: 'Цена на "Дворец" начинается с "10000"'},
+  ];
+
   var mainForm = document.querySelector('.ad-form');
   var selectRoomNumber = mainForm.querySelector('#room_number');
-  var selectRoomNumberOption = selectRoomNumber.querySelectorAll('option');
   var selectCapacity = mainForm.querySelector('#capacity');
   var inputTitle = mainForm.querySelector('#title');
   var inputPrice = mainForm.querySelector('#price');
   var selectType = mainForm.querySelector('#type');
   var selectTypeOption = selectType.querySelectorAll('option');
-  var selectTimein = mainForm.querySelector('#timein');
-  var selectTimeinOption = selectTimein.querySelectorAll('option');
-  var selectTimeout = mainForm.querySelector('#timeout');
-  var selectTimeoutOption = selectTimeout.querySelectorAll('option');
 
-  function getValidMessage(elementForm, message) {
+  function showValidationMessage(elementForm, message) {
     if (message) {
-      elementForm.style.border = '3px solid red';
+      elementForm.style.border = '2px solid red';
     } else {
       elementForm.style.border = '1px solid white';
     }
     elementForm.setCustomValidity(message);
   }
 
-  var onValidationRoomToGuest = function () {
+  function onValidationRoomToGuest() {
     var roomValue = Number(selectRoomNumber.value);
     var questValue = Number(selectCapacity.value);
     var validMessage;
@@ -38,10 +40,10 @@
     } else {
       validMessage = '';
     }
-    getValidMessage(selectCapacity, validMessage);
-  };
+    showValidationMessage(selectCapacity, validMessage);
+  }
 
-  var onValidationTitle = function () {
+  function onValidationTitle() {
     var validMessage = '';
     var validity = inputTitle.validity;
     if (inputTitle.value.length === 0) {
@@ -53,10 +55,10 @@
     if (validity.tooLong) {
       validMessage = 'Длинный текст описания';
     }
-    getValidMessage(inputTitle, validMessage);
-  };
+    showValidationMessage(inputTitle, validMessage);
+  }
 
-  var onValidationPrice = function () {
+  function onValidationPrice() {
     var validMessage = '';
     var validity = inputPrice.validity;
     if (inputPrice.value.length === 0) {
@@ -65,17 +67,17 @@
     if (validity.rangeOverflow) {
       validMessage = 'Цена не может превышать 1 000 000';
     }
-    getValidMessage(inputPrice, validMessage);
-  };
+    showValidationMessage(inputPrice, validMessage);
+  }
 
-  var onValidPriceToType = function () {
+  function onValidationPriceToType() {
     selectTypeOption.forEach(function (typeElem, index) {
       if (selectType.selectedIndex === index) {
-        var result = window.data.TypeToPrice.find(function (item) {
+        var result = TypeToPrice.find(function (item) {
           return item.TYPE === typeElem.value;
         });
         if (Number(inputPrice.value) < Number(result.PRICEMIN)) {
-          getValidMessage(inputPrice, result.MESSAGE);
+          showValidationMessage(inputPrice, result.MESSAGE);
           inputPrice.setAttribute('min', result.PRICEMIN);
           inputPrice.setAttribute('placeholder', result.PRICEMIN);
         } else {
@@ -84,56 +86,27 @@
         }
       }
     });
-    // onValidationPrice();
-  };
+  }
 
-  var onValidTimeinChange = function () {
-    selectTimeinOption.forEach(function (timeinElem, index) {
-      if (selectTimein.selectedIndex === index) {
-        selectTimeout.value = timeinElem.value;
-      }
-    });
-  };
+  function checkValitation() {
+    onValidationRoomToGuest();
+    onValidationTitle();
+    onValidationPrice();
+    onValidationPriceToType();
+  }
 
-  var onValidTimeoutChange = function () {
-    selectTimeoutOption.forEach(function (timeoutElem, index) {
-      if (selectTimeout.selectedIndex === index) {
-        selectTimein.value = timeoutElem.value;
-      }
-    });
-  };
+  // selectCapacity.addEventListener('change', onValidationRoomToGuest);
+  // inputTitle.addEventListener('input', onValidationTitle);
+  // inputPrice.addEventListener('input', onValidationPrice);
+  // selectType.addEventListener('change', onValidationPriceToType);
 
-  var onAdjustRoomToGuest = function () {
-    selectRoomNumberOption.forEach(function (roomElem, index) {
-      if (selectRoomNumber.selectedIndex === index) {
-        var result = window.data.roomsForGuest.find(function (item) {
-          return item.ROOM === Number(roomElem.value);
-        });
-        selectCapacity.value = result.CAPACITY;
-      }
-    });
-    // onValidationRoomToGuest();
-  };
-
-  selectRoomNumber.addEventListener('change', onAdjustRoomToGuest);
-
-  selectCapacity.addEventListener('change', onValidationRoomToGuest);
-  inputTitle.addEventListener('input', onValidationTitle);
-  inputPrice.addEventListener('input', onValidationPrice);
-  selectType.addEventListener('change', onValidPriceToType);
-  selectTimein.addEventListener('change', onValidTimeinChange);
-  selectTimeout.addEventListener('change', onValidTimeoutChange);
-
-  // selectRoomNumber.removeEventListener('change', onAdjustRoomToGuest);
-  // selectCapacity.removeEventListener('input', onValidationRoomToGuest);
-
+  // selectCapacity.removeEventListener('change', onValidationRoomToGuest);
+  // inputTitle.removeEventListener('input', onValidationTitle);
+  // inputPrice.removeEventListener('input', onValidationPrice);
+  // selectType.removeEventListener('change', onValidationPriceToType);
 
   window.valid = {
-    onValidationTitle: onValidationTitle,
-    onValidationRoomToGuest: onValidationRoomToGuest,
-    onAdjustRoomToGuest: onAdjustRoomToGuest,
-    onValidationPrice: onValidationPrice,
-    onValidPriceToType: onValidPriceToType,
+    check: checkValitation,
   };
   // window.valid.onValidationPrice;
 })();
