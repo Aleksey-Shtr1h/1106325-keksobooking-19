@@ -22,24 +22,50 @@
   var minLengthBlock = 0 - mainPinOffsetWidth / 2;
   var maxLengthBlock = mapBlockOffsetWidth - mainPinOffsetWidth / 2;
 
-  function renderPins(dataPin) {
-    var takeNumber = dataPin.length > 5 ? 5 : dataPin.length;
+  function renderPins(dataPins) {
+    var takeNumber = dataPins.length > 5 ? 5 : dataPins.length;
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < takeNumber; i++) {
+      if (!dataPins[i].offer) {
+        continue;
+      }
       var pinElement = pinTemplate.cloneNode(true);
 
-      pinElement.style.left = (dataPin[i].location.x - ICON_PIN_WIDTH / 2) + 'px';
-      pinElement.style.top = (dataPin[i].location.y - ICON_PIN_HEIGHT) + 'px';
+      pinElement.style.left = (dataPins[i].location.x - ICON_PIN_WIDTH / 2) + 'px';
+      pinElement.style.top = (dataPins[i].location.y - ICON_PIN_HEIGHT) + 'px';
 
-      pinElement.querySelector('img').src = dataPin[i].author.avatar;
-      pinElement.querySelector('img').alt = dataPin[i].offer.title;
+      pinElement.querySelector('img').src = dataPins[i].author.avatar;
+      pinElement.querySelector('img').alt = dataPins[i].offer.title;
 
       fragment.appendChild(pinElement);
     }
     mapPins.appendChild(fragment);
   }
 
-  mainIconButton.addEventListener('mousedown', function (evt) {
+  function cleanPins() {
+    var btnPins = document.querySelectorAll('.map__pin:not(.map__pin--main');
+    btnPins.forEach(function (btnPin) {
+      btnPin.remove();
+    });
+  }
+
+  function addActivePin(targetPin) {
+    targetPin.classList.add('map__pin--active');
+  }
+
+  function removeActivePin() {
+    var activePins = mapPins.querySelector('.map__pin--active');
+    if (activePins) {
+      activePins.classList.remove('map__pin--active');
+    }
+  }
+
+  function returnMainPin() {
+    mainIconButton.style.top = mainPinOffsetTop + 'px';
+    mainIconButton.style.left = mainPinOffsetLeft + 'px';
+  }
+
+  function onMoveMainPinMousedown(evt) {
     evt.preventDefault();
 
     var startCoords = {
@@ -83,7 +109,7 @@
       var topAddress = mainIconButton.style.top;
       var leftAddress = mainIconButton.style.left;
 
-      userInputAddress.value = window.form.whriteCoordMainIcon(leftAddress, topAddress);
+      userInputAddress.value = window.form.whriteCoordMainIcon(leftAddress, topAddress, true);
     }
 
     function onMouseUp(upEvt) {
@@ -94,29 +120,14 @@
 
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
-  });
-
-  function cleanPins() {
-    var btnPins = document.querySelectorAll('.map__pin:not(.map__pin--main');
-    btnPins.forEach(function (btnPin) {
-      btnPin.remove();
-    });
   }
 
-  function addActivePin(target) {
-    target.classList.add('map__pin--active');
+  function addListener() {
+    mainIconButton.addEventListener('mousedown', onMoveMainPinMousedown);
   }
 
-  function removeActivePin() {
-    var activePins = mapPins.querySelector('.map__pin--active');
-    if (activePins) {
-      activePins.classList.remove('map__pin--active');
-    }
-  }
-
-  function returnMainPin() {
-    mainIconButton.style.top = mainPinOffsetTop + 'px';
-    mainIconButton.style.left = mainPinOffsetLeft + 'px';
+  function removeListener() {
+    mainIconButton.removeEventListener('mousedown', onMoveMainPinMousedown);
   }
 
   window.pins = {
@@ -125,6 +136,7 @@
     returnMainIcon: returnMainPin,
     addActiveClass: addActivePin,
     removeActiveClass: removeActivePin,
+    addListener: addListener,
+    removeListener: removeListener,
   };
-  // window.pins.returnMainPin
 })();

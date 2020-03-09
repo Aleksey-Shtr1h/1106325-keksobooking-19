@@ -32,21 +32,21 @@
 
     form.classList.add('ad-form--disabled');
     select.forEach(function (elemSelect) {
-      elemSelect.setAttribute('disabled', 'disabled');
+      elemSelect.disabled = true;
     });
-    fieldset.setAttribute('disabled', 'disabled');
+    fieldset.disabled = true;
   }
 
   function activateMapFilter(form, select, fieldset) {
     form.classList.remove('ad-form--disabled');
     select.forEach(function (elemSelect) {
-      elemSelect.removeAttribute('disabled', 'disabled');
+      elemSelect.disabled = false;
     });
-    fieldset.removeAttribute('disabled', 'disabled');
+    fieldset.disabled = false;
   }
 
-  function updatePins(data) {
-    var httpPins = data.slice();
+  function updatePins(dataHttpRequest) {
+    var httpPins = dataHttpRequest.slice();
     var filterPinsData = httpPins.filter(function (it) {
       return (getFilterType(it) && getFilterPrice(it) && getFilterRoom(it) && getFilterGuest(it)) && getFilterFeature(it);
     });
@@ -90,8 +90,6 @@
     housingRoomValue = filterHousingRoom.value;
     debouncePins();
   }
-
-  // Фильтр гостей
 
   function getFilterGuest(httpElem) {
     return housingGuestValue === START_VALUE_FILTER || Number(housingGuestValue) === httpElem.offer.guests;
@@ -160,10 +158,10 @@
   }
 
   window.filterPins = {
+    load: updatePins,
     activate: activateMapFilter,
     deactivate: deactivateMapFilter,
     addListner: addFilterListner,
     removeListner: removeFilterListner,
   };
 })();
-// window.filterPins.removeListner

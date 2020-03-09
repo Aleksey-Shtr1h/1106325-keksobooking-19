@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var TIMEOUT_MESSAGE = 500;
   var ESC_KEY = 'Escape';
   var body = document.querySelector('body');
   var main = document.querySelector('main');
@@ -17,7 +18,7 @@
   function successHandler(dataHttpRequest) {
     window.network.offer = dataHttpRequest.slice();
     window.filterPins.activate(mapFilter, mapFilterSelect, mapFilterFieldset);
-    window.pins.render(dataHttpRequest);
+    window.filterPins.load(dataHttpRequest);
     window.cards.show(dataHttpRequest);
   }
 
@@ -65,9 +66,11 @@
       errorBlock.remove();
     });
 
-    body.addEventListener('click', function () {
-      errorBlock.remove();
-    });
+    setTimeout(function () {
+      body.addEventListener('click', function () {
+        errorBlock.remove();
+      });
+    }, TIMEOUT_MESSAGE);
 
     body.addEventListener('keydown', function (evt) {
       if (evt.key === ESC_KEY) {
@@ -79,9 +82,7 @@
   window.network = {
     successHandler: successHandler,
     errorHandler: errorHandler,
-    // disablePage: disablePage,
     openPopupSuccess: createBlockSuccess,
     closePopupSuccess: closeBlockSuccess,
   };
-  // window.network.disablePage
 })();

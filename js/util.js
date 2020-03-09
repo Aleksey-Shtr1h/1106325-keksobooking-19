@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-
   function getRoomGuestCard(room, guest) {
     var roomValue = ' комната';
     var guestValue = ' гостя';
@@ -20,12 +19,14 @@
   }
 
   function showFeatureCard(arrayFeature, elem) {
+    var result = 'popup__feature popup__feature--';
     arrayFeature.forEach(function (elemItem) {
-      var result = window.data.featureDependence[elemItem.className];
-      if (elem.includes(result)) {
-        elemItem.style.display = 'inline-block';
-      } else {
-        elemItem.style.display = 'none';
+      elemItem.style.display = 'none';
+      for (var i = 0; i < elem.length; i++) {
+        if (elemItem.className === result + elem[i]) {
+          elemItem.style.display = 'inline-block';
+          break;
+        }
       }
     });
   }
@@ -39,11 +40,9 @@
     imgArray[0].remove();
   }
 
-
   window.util = {
     getRoomGuestCard: getRoomGuestCard,
     showFeatureCard: showFeatureCard,
     showPhotoCard: showPhotoCard,
   };
-
 })();

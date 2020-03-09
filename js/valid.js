@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-
   var TypeToPrice = [
     {TYPE: 'bungalo', PRICEMIN: '0', MESSAGE: 'Цена на "Бунгало" начинается с "0"'},
     {TYPE: 'flat', PRICEMIN: '1000', MESSAGE: 'Цена на "Квартиру" начинается с "1000"'},
@@ -78,11 +77,11 @@
         });
         if (Number(inputPrice.value) < Number(result.PRICEMIN)) {
           showValidationMessage(inputPrice, result.MESSAGE);
-          inputPrice.setAttribute('min', result.PRICEMIN);
-          inputPrice.setAttribute('placeholder', result.PRICEMIN);
+          inputPrice.min = result.PRICEMIN;
+          inputPrice.placeholder = result.PRICEMIN;
         } else {
-          inputPrice.setAttribute('min', result.PRICEMIN);
-          inputPrice.setAttribute('placeholder', result.PRICEMIN);
+          inputPrice.min = result.PRICEMIN;
+          inputPrice.placeholder = result.PRICEMIN;
         }
       }
     });
@@ -95,18 +94,23 @@
     onValidationPriceToType();
   }
 
-  // selectCapacity.addEventListener('change', onValidationRoomToGuest);
-  // inputTitle.addEventListener('input', onValidationTitle);
-  // inputPrice.addEventListener('input', onValidationPrice);
-  // selectType.addEventListener('change', onValidationPriceToType);
+  function addListener() {
+    selectCapacity.addEventListener('change', onValidationRoomToGuest);
+    inputTitle.addEventListener('input', onValidationTitle);
+    inputPrice.addEventListener('input', onValidationPrice);
+    selectType.addEventListener('change', onValidationPriceToType);
+  }
 
-  // selectCapacity.removeEventListener('change', onValidationRoomToGuest);
-  // inputTitle.removeEventListener('input', onValidationTitle);
-  // inputPrice.removeEventListener('input', onValidationPrice);
-  // selectType.removeEventListener('change', onValidationPriceToType);
+  function removeListener() {
+    selectCapacity.removeEventListener('change', onValidationRoomToGuest);
+    inputTitle.removeEventListener('input', onValidationTitle);
+    inputPrice.removeEventListener('input', onValidationPrice);
+    selectType.removeEventListener('change', onValidationPriceToType);
+  }
 
   window.valid = {
     check: checkValitation,
+    addListener: addListener,
+    removeListener: removeListener,
   };
-  // window.valid.onValidationPrice;
 })();

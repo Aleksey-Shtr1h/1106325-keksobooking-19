@@ -56,25 +56,6 @@
     var mapPinsParent = document.querySelector('.map__pins');
     var btnPins = document.querySelectorAll('.map__pin:not(.map__pin--main');
 
-    function closePopupClick(btnClose, cardPopup) {
-      btnClose.addEventListener('click', function () {
-        cardPopup.remove();
-      });
-    }
-
-    function closePopupKeydown(btnClose, cardPopup) {
-      btnClose.addEventListener('keydown', function (evtBtn) {
-        if (evtBtn.key === ESC_KEY) {
-          cardPopup.remove();
-        }
-      });
-      body.addEventListener('keydown', function (evtBody) {
-        if (evtBody.key === ESC_KEY) {
-          cardPopup.remove();
-        }
-      });
-    }
-
     function showIndexCard(target) {
       window.pins.addActiveClass(target);
       btnPins.forEach(function (item, index) {
@@ -82,7 +63,7 @@
           renderCard(dataCard, index);
           var btnPopupClose = document.querySelector('.popup__close');
           var articlePopup = map.querySelector('.map__card.popup');
-          closePopupClick(btnPopupClose, articlePopup);
+          closePopupClick(btnPopupClose, articlePopup, mapPinsParent);
           closePopupKeydown(btnPopupClose, articlePopup);
         }
       });
@@ -98,7 +79,28 @@
       showIndexCard(target.closest('.map__pin'));
       evt.stopPropagation();
     }
+    mapPinsParent.removeEventListener('click', onTargetClick);
     mapPinsParent.addEventListener('click', onTargetClick);
+  }
+
+  function closePopupClick(btnClose, cardPopup) {
+    btnClose.addEventListener('click', function () {
+      cardPopup.remove();
+    });
+  }
+
+  function closePopupKeydown(btnClose, cardPopup) {
+    btnClose.addEventListener('keydown', function (evtBtn) {
+      if (evtBtn.key === ESC_KEY) {
+        cardPopup.remove();
+      }
+    });
+
+    body.addEventListener('keydown', function (evtBody) {
+      if (evtBody.key === ESC_KEY) {
+        cardPopup.remove();
+      }
+    });
   }
 
   function removeCard() {
@@ -114,4 +116,3 @@
     show: showCard,
   };
 })();
-// window.cards.getCardsPins

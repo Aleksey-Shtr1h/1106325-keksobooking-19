@@ -16,8 +16,11 @@
     window.form.activate(formFieldsets);
     window.filterPins.deactivate(mapFilter, mapFilterSelect, mapFilterFieldset);
     window.backend.load(window.network.successHandler, window.network.errorHandler);
+    endWorkingSite();
+    window.pins.addListener();
     window.filterPins.addListner();
-    mainIconButton.removeEventListener('mousedown', onTurnOnLeftButton);
+    window.form.addListener();
+    window.valid.addListener();
   }
 
   function disablePage() {
@@ -26,16 +29,28 @@
     mainForm.reset();
     window.form.deactivate(formFieldsets);
     window.form.resetFilter();
-    window.filterPins.removeListner();
     window.pins.clean();
     window.cards.remove();
     window.pins.returnMainIcon();
     startWorkingSite();
+    window.pins.removeListener();
+    window.filterPins.removeListner();
+    window.form.removeListener();
+    window.valid.removeListener();
   }
 
   function startWorkingSite() {
     mainIconButton.addEventListener('mousedown', onTurnOnLeftButton);
     mainIconButton.addEventListener('keydown', function (evt) {
+      if (evt.key === ENTER_KEY) {
+        enablePage();
+      }
+    });
+  }
+
+  function endWorkingSite() {
+    mainIconButton.removeEventListener('mousedown', onTurnOnLeftButton);
+    mainIconButton.removeEventListener('keydown', function (evt) {
       if (evt.key === ENTER_KEY) {
         enablePage();
       }
@@ -49,11 +64,9 @@
   }
 
   startWorkingSite();
-  // deactivateForm(formFieldsets);
 
   window.switchPage = {
     enable: enablePage,
     disable: disablePage,
   };
-  // window.switchPage.enablePage
 })();
