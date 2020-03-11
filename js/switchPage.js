@@ -27,6 +27,8 @@
     map.classList.add('map--faded');
     mainForm.classList.add('ad-form--disabled');
     mainForm.reset();
+    window.form.removeImg();
+    window.form.removeValidation();
     window.form.deactivate(formFieldsets);
     window.form.resetFilter();
     window.pins.clean();

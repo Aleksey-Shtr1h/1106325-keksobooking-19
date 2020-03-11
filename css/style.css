@@ -1249,3 +1249,13 @@ fieldset {
   outline: none;
   opacity: 0.6;
 }
+
+.ad-form__element .ad-error_validation {
+  border: 2px solid red;
+}
+
+.house_photo {
+  background-size: cover;
+  width: 70px;
+  height: 70px;
+}

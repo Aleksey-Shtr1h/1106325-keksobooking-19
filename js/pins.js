@@ -4,6 +4,10 @@
   var ICON_PIN_WIDTH = 50;
   var ICON_PIN_HEIGHT = 70;
   var ICON_MAIN_PIN_AFTER = 22;
+  var AMOUNT_PIN = 5;
+  var VALUE_MIN_HIEGHT_BLOCK = 130;
+  var VALUE_MAX_HIEGHT_BLOCK = 630;
+  var VALUE_MIN_LENGTH_BLOCK = 0;
 
   var mapBlockOffsetWidth = document.querySelector('.map').offsetWidth;
   var map = document.querySelector('.map');
@@ -17,13 +21,13 @@
   var mainPinOffsetLeft = mainIconButton.offsetLeft;
   var mainPinOffsetHeight = mainIconButton.offsetHeight;
   var mainPinOffsetWidth = mainIconButton.offsetWidth;
-  var minHieghtBlock = 130 - mainPinOffsetHeight - ICON_MAIN_PIN_AFTER;
-  var maxHieghtBlock = 630;
-  var minLengthBlock = 0 - mainPinOffsetWidth / 2;
+  var minHieghtBlock = VALUE_MIN_HIEGHT_BLOCK - mainPinOffsetHeight - ICON_MAIN_PIN_AFTER;
+  var maxHieghtBlock = VALUE_MAX_HIEGHT_BLOCK - mainPinOffsetHeight - ICON_MAIN_PIN_AFTER;
+  var minLengthBlock = VALUE_MIN_LENGTH_BLOCK - mainPinOffsetWidth / 2;
   var maxLengthBlock = mapBlockOffsetWidth - mainPinOffsetWidth / 2;
 
   function renderPins(dataPins) {
-    var takeNumber = dataPins.length > 5 ? 5 : dataPins.length;
+    var takeNumber = dataPins.length > AMOUNT_PIN ? AMOUNT_PIN : dataPins.length;
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < takeNumber; i++) {
       if (!dataPins[i].offer) {
@@ -91,14 +95,12 @@
       }
 
       function getRestrictionForPin(position, min, max, x, y) {
+        position = getCoordStyle(x, y) + 'px';
         if (parseInt(position, 10) > max) {
           position = max + 'px';
-
-        } else if (parseInt(position, 10) < min) {
+        }
+        if (parseInt(position, 10) < min) {
           position = min + 'px';
-
-        } else {
-          position = getCoordStyle(x, y) + 'px';
         }
         return position;
       }

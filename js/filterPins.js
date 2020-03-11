@@ -3,7 +3,7 @@
 (function () {
   var DEBOUNCE_INTERVAL = 500;
   var START_VALUE_FILTER = 'any';
-  var FilterValuePrice = [
+  var filterValuePrices = [
     {HOUSE_PRICE: 'any', MIN_PRICE: undefined, MAX_PRICE: undefined},
     {HOUSE_PRICE: 'low', MIN_PRICE: 0, MAX_PRICE: 10000},
     {HOUSE_PRICE: 'middle', MIN_PRICE: 10001, MAX_PRICE: 49999},
@@ -66,15 +66,14 @@
   }
 
   function getFilterPrice(httpElem) {
-    var result = FilterValuePrice.find(function (item) {
+    var result = filterValuePrices.find(function (item) {
       return item.HOUSE_PRICE === housingPriceValue;
     });
 
     if (httpElem.offer.price >= result.MIN_PRICE && httpElem.offer.price <= result.MAX_PRICE) {
       return housingPriceValue;
-    } else {
-      return housingPriceValue === START_VALUE_FILTER;
     }
+    return housingPriceValue === START_VALUE_FILTER;
   }
 
   function onFilterPriceChange() {
@@ -102,11 +101,23 @@
 
   function getFilterFeature(httpElem) {
     var result = true;
-    housingFeatureArray.forEach(function (elem) {
-      if (!httpElem.offer.features.includes(elem)) {
+
+    // for (var i = 0; i < housingFeatureArray.length; i++) {
+    //   if (!httpElem.offer.features.includes(housingFeatureArray[i])) {
+    //     result = false;
+    //     break;
+    //   }
+    // }
+
+    var i = 0;
+    while (i < housingFeatureArray.length) {
+      if (!httpElem.offer.features.includes(housingFeatureArray[i])) {
         result = false;
+        break;
       }
-    });
+      i = i + 1;
+    }
+
     return result;
   }
 

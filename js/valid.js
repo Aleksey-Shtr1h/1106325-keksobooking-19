@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var TypeToPrice = [
+  var typesHouseToPrices = [
     {TYPE: 'bungalo', PRICEMIN: '0', MESSAGE: 'Цена на "Бунгало" начинается с "0"'},
     {TYPE: 'flat', PRICEMIN: '1000', MESSAGE: 'Цена на "Квартиру" начинается с "1000"'},
     {TYPE: 'house', PRICEMIN: '5000', MESSAGE: 'Цена на "Дом" начинается с "5000"'},
@@ -18,9 +18,9 @@
 
   function showValidationMessage(elementForm, message) {
     if (message) {
-      elementForm.style.border = '2px solid red';
+      elementForm.classList.add('ad-error_validation');
     } else {
-      elementForm.style.border = '1px solid white';
+      elementForm.classList.remove('ad-error_validation');
     }
     elementForm.setCustomValidity(message);
   }
@@ -72,7 +72,7 @@
   function onValidationPriceToType() {
     selectTypeOption.forEach(function (typeElem, index) {
       if (selectType.selectedIndex === index) {
-        var result = TypeToPrice.find(function (item) {
+        var result = typesHouseToPrices.find(function (item) {
           return item.TYPE === typeElem.value;
         });
         if (Number(inputPrice.value) < Number(result.PRICEMIN)) {
