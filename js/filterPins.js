@@ -103,7 +103,7 @@
     var result = true;
     var i = 0;
     while (i < housingFeatureArray.length) {
-      if (httpElem.offer.features.includes(housingFeatureArray[i])) {
+      if (!httpElem.offer.features.includes(housingFeatureArray[i])) {
         result = false;
         break;
       }
