@@ -15,7 +15,7 @@
     mainForm.classList.remove('ad-form--disabled');
     window.form.activate(formFieldsets);
     window.filterPins.deactivate(mapFilter, mapFilterSelect, mapFilterFieldset);
-    window.backend.load(window.network.successHandler, window.network.errorHandler);
+    window.backend.load(window.network.success, window.network.error);
     endWorkingSite();
     window.pins.addListener();
     window.filterPins.addListner();

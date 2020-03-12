@@ -101,23 +101,14 @@
 
   function getFilterFeature(httpElem) {
     var result = true;
-
-    // for (var i = 0; i < housingFeatureArray.length; i++) {
-    //   if (!httpElem.offer.features.includes(housingFeatureArray[i])) {
-    //     result = false;
-    //     break;
-    //   }
-    // }
-
     var i = 0;
     while (i < housingFeatureArray.length) {
-      if (!httpElem.offer.features.includes(housingFeatureArray[i])) {
+      if (httpElem.offer.features.includes(housingFeatureArray[i])) {
         result = false;
         break;
       }
       i = i + 1;
     }
-
     return result;
   }
 

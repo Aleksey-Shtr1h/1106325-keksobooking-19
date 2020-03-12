@@ -15,14 +15,14 @@
   var mapFilterSelect = wrapperMapFilter.querySelectorAll('.map__filters select');
   var mapFilterFieldset = wrapperMapFilter.querySelector('.map__filters fieldset');
 
-  function successHandler(dataHttpRequest) {
+  function onDataPinsSuccess(dataHttpRequest) {
     window.network.offer = dataHttpRequest.slice();
     window.filterPins.activate(mapFilter, mapFilterSelect, mapFilterFieldset);
     window.filterPins.load(dataHttpRequest);
     window.cards.show(dataHttpRequest);
   }
 
-  function errorHandler(errorMessage) {
+  function onDataPinsError(errorMessage) {
     createBlockError();
     closeBlockError(errorMessage);
   }
@@ -80,8 +80,8 @@
   }
 
   window.network = {
-    successHandler: successHandler,
-    errorHandler: errorHandler,
+    success: onDataPinsSuccess,
+    error: onDataPinsError,
     openPopupSuccess: createBlockSuccess,
     closePopupSuccess: closeBlockSuccess,
   };

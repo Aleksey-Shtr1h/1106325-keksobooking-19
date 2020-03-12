@@ -114,7 +114,7 @@
     return photoHouse;
   }
 
-  function formHandler(evt) {
+  function onFormSubmit(evt) {
     userInputAddress.disabled = false;
     var formDataPost = new FormData(mainForm);
     window.backend.save(formDataPost, function () {
@@ -172,7 +172,7 @@
     selectRoomNumber.addEventListener('change', onAdjustRoomToGuest);
     resetBtn.addEventListener('click', onResetFormClick);
     btnSubmit.addEventListener('click', onValidationClick);
-    mainForm.addEventListener('submit', formHandler);
+    mainForm.addEventListener('submit', onFormSubmit);
   }
 
   function removeListener() {
@@ -187,7 +187,7 @@
     selectRoomNumber.removeEventListener('change', onAdjustRoomToGuest);
     resetBtn.removeEventListener('click', onResetFormClick);
     btnSubmit.removeEventListener('click', onValidationClick);
-    mainForm.removeEventListener('submit', formHandler);
+    mainForm.removeEventListener('submit', onFormSubmit);
   }
 
   window.form = {
