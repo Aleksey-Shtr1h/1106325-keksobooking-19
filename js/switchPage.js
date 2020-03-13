@@ -1,6 +1,7 @@
 'use strict';
 (function () {
   var ENTER_KEY = 'Enter';
+  var PLACEHOLDER_RESET = '5000';
   var map = document.querySelector('.map');
   var mainForm = document.querySelector('.ad-form');
   var wrapperMapFilter = document.querySelector('.map__filters-container');
@@ -9,6 +10,7 @@
   var mapFilter = wrapperMapFilter.querySelector('.map__filters');
   var mapFilterSelect = wrapperMapFilter.querySelectorAll('.map__filters select');
   var mapFilterFieldset = wrapperMapFilter.querySelector('.map__filters fieldset');
+  var inputPrice = mainForm.querySelector('#price');
 
   function enablePage() {
     map.classList.remove('map--faded');
@@ -26,6 +28,7 @@
   function disablePage() {
     map.classList.add('map--faded');
     mainForm.classList.add('ad-form--disabled');
+    inputPrice.placeholder = PLACEHOLDER_RESET;
     mainForm.reset();
     window.form.removeImg();
     window.form.removeValidation();
