@@ -82,11 +82,7 @@
       if (index !== -1) {
         renderCard(dataCard, index);
         var btnPopupClose = document.querySelector('.popup__close');
-        var articlePopup = map.querySelector('.map__card.popup');
-        removeListenerPopupClick(btnPopupClose, articlePopup);
-        removeListenerPopupKeydown(btnPopupClose, articlePopup);
-        closePopupClick(btnPopupClose, articlePopup);
-        closePopupKeydown(btnPopupClose, articlePopup);
+        bindCardListeners(btnPopupClose);
       }
     }
 
@@ -102,51 +98,36 @@
     }
     mapPinsParent.removeEventListener('click', onTargetClick);
     mapPinsParent.addEventListener('click', onTargetClick);
+
   }
 
-  function closePopupClick(btnClose, cardPopup) {
-    btnClose.addEventListener('click', function () {
-      cardPopup.remove();
-    });
+  function bindCardListeners(btnClose) {
+    btnClose.addEventListener('click', onCardClose);
+    btnClose.addEventListener('keydown', onCardEscClose);
+    body.addEventListener('keydown', onCardEscClose);
   }
 
-  function removeListenerPopupClick(btnClose, cardPopup) {
-    btnClose.removeEventListener('click', function () {
-      cardPopup.remove();
-    });
+  function unbindCardListeners(btnClose) {
+    btnClose.removeEventListener('click', onCardClose);
+    btnClose.removeEventListener('keydown', onCardEscClose);
+    body.removeEventListener('keydown', onCardEscClose);
   }
 
-  function closePopupKeydown(btnClose, cardPopup) {
-    btnClose.addEventListener('keydown', function (evtBtn) {
-      if (evtBtn.key === ESC_KEY) {
-        cardPopup.remove();
-      }
-    });
-
-    body.addEventListener('keydown', function (evtBody) {
-      if (evtBody.key === ESC_KEY) {
-        cardPopup.remove();
-      }
-    });
+  function onCardEscClose(evtBody) {
+    if (evtBody.key === ESC_KEY) {
+      removeCard();
+    }
   }
 
-  function removeListenerPopupKeydown(btnClose, cardPopup) {
-    btnClose.removeEventListener('keydown', function (evtBtn) {
-      if (evtBtn.key === ESC_KEY) {
-        cardPopup.remove();
-      }
-    });
-
-    body.removeEventListener('keydown', function (evtBody) {
-      if (evtBody.key === ESC_KEY) {
-        cardPopup.remove();
-      }
-    });
+  function onCardClose() {
+    removeCard();
   }
 
   function removeCard() {
     var activeCard = map.querySelector('.map__card');
+    var btnPopupClose = document.querySelector('.popup__close');
     if (activeCard) {
+      unbindCardListeners(btnPopupClose);
       activeCard.remove();
     }
   }

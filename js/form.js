@@ -42,7 +42,7 @@
       arrayFieldsets[i].disabled = true;
     }
     userInputAddress.disabled = true;
-    userInputAddress.value = whriteCoordMainIcon(mainPinStyleLeft, mainPinStyleTop, false);
+    userInputAddress.value = writeCoordMainIcon(mainPinStyleLeft, mainPinStyleTop, false);
   }
 
   deactivateForm(formFieldsets);
@@ -52,10 +52,10 @@
       arrayFieldsets[i].disabled = false;
     }
 
-    userInputAddress.value = whriteCoordMainIcon(mainPinStyleLeft, mainPinStyleTop, true);
+    userInputAddress.value = writeCoordMainIcon(mainPinStyleLeft, mainPinStyleTop, true);
   }
 
-  function whriteCoordMainIcon(left, top, active) {
+  function writeCoordMainIcon(left, top, active) {
     var leftCoordinate = parseInt(left, 10);
     var topCoordinate = parseInt(top, 10);
     var addressElementary = Math.round(leftCoordinate + mainPinDiameter / 2) + ', ' + Math.round(topCoordinate + mainPinDiameter / 2);
@@ -191,7 +191,7 @@
   }
 
   window.form = {
-    whriteCoordMainIcon: whriteCoordMainIcon,
+    writeCoordMainIcon: writeCoordMainIcon,
     activate: activateForm,
     deactivate: deactivateForm,
     removeValidation: removeValidationStyle,

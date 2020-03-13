@@ -5,8 +5,8 @@
   var ICON_PIN_HEIGHT = 70;
   var ICON_MAIN_PIN_AFTER = 22;
   var AMOUNT_PIN = 5;
-  var VALUE_MIN_HIEGHT_BLOCK = 130;
-  var VALUE_MAX_HIEGHT_BLOCK = 630;
+  var VALUE_MIN_HEIGHT_BLOCK = 130;
+  var VALUE_MAX_HEIGHT_BLOCK = 630;
   var VALUE_MIN_LENGTH_BLOCK = 0;
 
   var mapBlockOffsetWidth = document.querySelector('.map').offsetWidth;
@@ -21,8 +21,8 @@
   var mainPinOffsetLeft = mainIconButton.offsetLeft;
   var mainPinOffsetHeight = mainIconButton.offsetHeight;
   var mainPinOffsetWidth = mainIconButton.offsetWidth;
-  var minHieghtBlock = VALUE_MIN_HIEGHT_BLOCK - mainPinOffsetHeight - ICON_MAIN_PIN_AFTER;
-  var maxHieghtBlock = VALUE_MAX_HIEGHT_BLOCK - mainPinOffsetHeight - ICON_MAIN_PIN_AFTER;
+  var minHieghtBlock = VALUE_MIN_HEIGHT_BLOCK - mainPinOffsetHeight - ICON_MAIN_PIN_AFTER;
+  var maxHieghtBlock = VALUE_MAX_HEIGHT_BLOCK - mainPinOffsetHeight - ICON_MAIN_PIN_AFTER;
   var minLengthBlock = VALUE_MIN_LENGTH_BLOCK - mainPinOffsetWidth / 2;
   var maxLengthBlock = mapBlockOffsetWidth - mainPinOffsetWidth / 2;
 
@@ -111,7 +111,7 @@
       var topAddress = mainIconButton.style.top;
       var leftAddress = mainIconButton.style.left;
 
-      userInputAddress.value = window.form.whriteCoordMainIcon(leftAddress, topAddress, true);
+      userInputAddress.value = window.form.writeCoordMainIcon(leftAddress, topAddress, true);
     }
 
     function onMouseUp(upEvt) {

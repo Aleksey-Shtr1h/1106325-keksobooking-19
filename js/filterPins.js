@@ -107,7 +107,7 @@
         result = false;
         break;
       }
-      i = i + 1;
+      i++;
     }
     return result;
   }
