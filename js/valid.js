@@ -2,10 +2,10 @@
 
 (function () {
   var typesHouseToPrices = [
-    {TYPE: 'bungalo', PRICEMIN: '0', MESSAGE: 'Цена на "Бунгало" начинается с "0"'},
-    {TYPE: 'flat', PRICEMIN: '1000', MESSAGE: 'Цена на "Квартиру" начинается с "1000"'},
-    {TYPE: 'house', PRICEMIN: '5000', MESSAGE: 'Цена на "Дом" начинается с "5000"'},
-    {TYPE: 'palace', PRICEMIN: '10000', MESSAGE: 'Цена на "Дворец" начинается с "10000"'},
+    {type: 'bungalo', priceMin: '0', message: 'Цена на "Бунгало" начинается с "0"'},
+    {type: 'flat', priceMin: '1000', message: 'Цена на "Квартиру" начинается с "1000"'},
+    {type: 'house', priceMin: '5000', message: 'Цена на "Дом" начинается с "5000"'},
+    {type: 'palace', priceMin: '10000', message: 'Цена на "Дворец" начинается с "10000"'},
   ];
 
   var mainForm = document.querySelector('.ad-form');
@@ -73,15 +73,15 @@
     selectTypeOption.forEach(function (typeElem, index) {
       if (selectType.selectedIndex === index) {
         var result = typesHouseToPrices.find(function (item) {
-          return item.TYPE === typeElem.value;
+          return item.type === typeElem.value;
         });
-        if (Number(inputPrice.value) < Number(result.PRICEMIN)) {
-          showValidationMessage(inputPrice, result.MESSAGE);
-          inputPrice.min = result.PRICEMIN;
-          inputPrice.placeholder = result.PRICEMIN;
+        if (Number(inputPrice.value) < Number(result.priceMin)) {
+          showValidationMessage(inputPrice, result.message);
+          inputPrice.min = result.priceMin;
+          inputPrice.placeholder = result.priceMin;
         } else {
-          inputPrice.min = result.PRICEMIN;
-          inputPrice.placeholder = result.PRICEMIN;
+          inputPrice.min = result.priceMin;
+          inputPrice.placeholder = result.priceMin;
         }
       }
     });

@@ -5,10 +5,10 @@
   var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
   var roomsForGuest = [
-    {ROOM: 1, CAPACITY: 1},
-    {ROOM: 2, CAPACITY: 2},
-    {ROOM: 3, CAPACITY: 3},
-    {ROOM: 100, CAPACITY: 0},
+    {room: 1, capacity: 1},
+    {room: 2, capacity: 2},
+    {room: 3, capacity: 3},
+    {room: 100, capacity: 0},
   ];
 
   var map = document.querySelector('.map');
@@ -145,9 +145,9 @@
     selectRoomNumberOption.forEach(function (roomElem, index) {
       if (selectRoomNumber.selectedIndex === index) {
         var result = roomsForGuest.find(function (item) {
-          return item.ROOM === Number(roomElem.value);
+          return item.room === Number(roomElem.value);
         });
-        selectCapacity.value = result.CAPACITY;
+        selectCapacity.value = result.capacity;
       }
     });
   }

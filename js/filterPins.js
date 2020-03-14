@@ -4,10 +4,10 @@
   var DEBOUNCE_INTERVAL = 500;
   var START_VALUE_FILTER = 'any';
   var filterValuePrices = [
-    {HOUSE_PRICE: 'any', MIN_PRICE: undefined, MAX_PRICE: undefined},
-    {HOUSE_PRICE: 'low', MIN_PRICE: 0, MAX_PRICE: 10000},
-    {HOUSE_PRICE: 'middle', MIN_PRICE: 10001, MAX_PRICE: 49999},
-    {HOUSE_PRICE: 'high', MIN_PRICE: 50000, MAX_PRICE: Infinity},
+    {housePrice: 'any', minPrice: undefined, maxPrice: undefined},
+    {housePrice: 'low', minPrice: 0, maxPrice: 10000},
+    {housePrice: 'middle', minPrice: 10001, maxPrice: 49999},
+    {housePrice: 'high', minPrice: 50000, maxPrice: Infinity},
   ];
   var wrapperMapFilter = document.querySelector('.map__filters-container');
   var filterHousingType = wrapperMapFilter.querySelector('#housing-type');
@@ -67,10 +67,10 @@
 
   function getFilterPrice(httpElem) {
     var result = filterValuePrices.find(function (item) {
-      return item.HOUSE_PRICE === housingPriceValue;
+      return item.housePrice === housingPriceValue;
     });
 
-    if (httpElem.offer.price >= result.MIN_PRICE && httpElem.offer.price <= result.MAX_PRICE) {
+    if (httpElem.offer.price >= result.minPrice && httpElem.offer.price <= result.maxPrice) {
       return housingPriceValue;
     }
     return housingPriceValue === START_VALUE_FILTER;
