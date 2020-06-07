@@ -2,6 +2,7 @@
 
 * Студент: [Алексей Кузьменя](https://up.htmlacademy.ru/javascript/19/user/1106325).
 * Наставник: `Гулевских Александр`.
+* Онлайн версия: https://aleksey-shtr1h.github.io/1106325-keksobooking-19/
 
 ---
 
