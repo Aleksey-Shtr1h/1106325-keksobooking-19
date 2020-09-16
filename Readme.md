@@ -7,4 +7,3 @@
 # Information
 
 * This is a static website. Made with technologies **HTML5**, **CSS3**, native **>ES5**. 
--
